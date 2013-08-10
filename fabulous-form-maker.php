@@ -3,9 +3,9 @@
 Plugin Name: Fabulous Form Maker
 Plugin URI: http://ellytronic.com
 Description: A custom form maker that allows users to build their own forms easily and without any knowledge of coding or progamming. Users can create text boxes, passwords fields, drop down select boxes, radio boxes, checkboxes, and text areas.
-Version: 1.0
+Version: 1.0.5
 Author: Ellytronic Media
-Author URI: http://ellytronic..com
+Author URI: http://ellytronic.com
 License:GPL2
 */
 
@@ -72,25 +72,101 @@ function etm_send_form() {
 
 	$msg .= "=====================================================";
 	$msg .= "\n\n\nDo not respond to this message. This is an automated email and your response will not be received.";
-	if(wp_mail( $recipient['email'], "Contact request from your website", $msg )) {
-		echo "<div class='success'>Thank you! Your message has been sent.</div>";
-	} else {
-		echo "<div class='error'>Unfortunately your message could not be sent. Please try again later. If the issue persists, please notify the site owner.</div>";
-	}
-
-
-
+	if(!wp_mail( $recipient['email'], "Contact request from your website", $msg )) {
+		wp_die("Sorry, your message could not be sent. Please notify the site owner if this issue persists.");
+	}		
 }
-//add_action( 'etm_act_send_form', 'etm_send_form', '', 1);  
 add_action( 'etm_act_send_form', 'etm_send_form');  
    
 
 //[etm_contact_form]
 function etm_print_form() {
 	if(isset($_POST['etm_submit'])) {
-		do_action( 'etm_act_send_form');				
+		do_action( 'etm_act_send_form');		
+		return "<div class='success'>Thank you! Your message has been sent.</div>";		
 	} else {
-		include("shortcode.php");
+		$form = '<style>';
+		$form .= '#ellytronic-contact label, #ellytronic-contact input, #ellytronic-contact select, #ellytronic-contact textarea {display:block;}';
+		$form .= '#ellytronic-contact input, #ellytronic-contact select, #ellytronic-contact textarea {margin-bottom:1em;}';
+		$form .= '#ellytronic-contact input[type="radio"], #ellytronic-contact input[type="checkbox"] {display:inline; margin:0;}';
+		$form .= '#ellytronic-contact label {margin-top:0.8em;}';
+		$form .= '.etm_padTop {padding-top:1.5em;}';
+		$form .= '</style>';
+		$form .= '<form id="ellytronic-contact" method="post" action="#">';
+			
+		global $wpdb;
+		$table_name = $wpdb->prefix . "etm_contact";		
+		//get the fields
+		$details = $wpdb->get_results("SELECT * FROM {$table_name}");
+
+		//list the fields
+		$i = 0;
+		foreach($details as $field) {
+			//reset required data
+			if($field->required) {
+				$required = " required";
+				$asterisk = "*";
+			} else {
+				$required = "";
+				$asterisk = "";
+			}
+
+			if($field->field_type == "text") {
+				//text field
+				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
+				$form .= "<input type='text' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">";
+
+			} elseif($field->field_type == "password") {
+				//password
+				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
+				$form .= "<input type='password' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">";
+
+			} elseif($field->field_type == "textarea") {
+				//textarea
+				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
+				$form .= "<textarea name='field_" . $i . "' id='field_" . $i . "' rows='5' cols='50' " . $required . "></textarea>";				
+			
+			} elseif($field->field_type == "select") {
+				//select
+				$form .= "<label for='" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
+				$form .= "<select name='field_" . $i . "' id='field_" . $i . "' " . $required . ">";
+				$etm_fields = explode('|-etm-|', $field->field_options);
+				foreach($etm_fields as $field_val) {
+					$form .= "<option value='" . $field_val . "'>" . $field_val . "</option>";
+				}
+				$form .= "</select>";				
+			} elseif($field->field_type == "radio") {
+				//radio				
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";	
+				$form .= "<label>" . $field->text_before_field . $asterisk . "</label>";			
+				$etm_fields = explode('|-etm-|', $field->field_options);
+				foreach($etm_fields as $field_val) {					
+					$form .= "<input type='radio' name='field_" . $i . "' class='field_" . $i . "' value='" . $field_val . "' " . $required . "> " . $field_val . "<br>";
+				}						
+			}  elseif($field->field_type == "checkbox") {
+				//radio				
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";				
+				$form .= "<label>" . $field->text_before_field . $asterisk . "</label>";
+				$etm_fields = explode('|-etm-|', $field->field_options);
+				foreach($etm_fields as $field_val) {					
+					$form .= "<input type='checkbox' name='field_" . $i . "' class='field_" . $i . "' value='" . $field_val . "'> " . $field_val . "<br>";
+				}						
+			} 
+			$i++;
+		}
+
+		//how many fields? subtract the extra count
+		$i--;
+		$form .= "<input type='hidden' value='" . $i ."' id='etm_field_count' name='etm_field_count'>";
+		$form .= '<p class="etm_padTop"><input type="submit" id="etm_submit" name="etm_submit" value="Submit"></p>';
+		$form .= '</form>';
+
+		//send it back for printing
+		return $form;
 	}	
 }
 add_shortcode( 'etm_contact_form', 'etm_print_form' ); 

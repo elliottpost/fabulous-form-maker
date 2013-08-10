@@ -76,7 +76,15 @@
 			//add a textarea
 			var etm_label = jQuery("#etm_namer").val();
 			var etm_newElement = '<div id="etm_element_' + etm_counter + '">';
-			etm_newElement =  etm_newElement + '<p>' + etm_label + '<br> <textarea rows="5" cols="50" id="etm_fakeElement_' + etm_counter + '"></textarea>';			
+			etm_newElement =  etm_newElement + '<p>' + etm_label;
+			//is it a required field?
+			if( jQuery("#etm_required").is(":checked") ) {			
+				etm_newElement = etm_newElement +   ' (required)<br> <textarea rows="5" cols="50" id="etm_fakeElement_' + etm_counter + '" required></textarea>';	
+				required = 1;
+			} else {
+				etm_newElement = etm_newElement +   '<br> <textarea rows="5" cols="50" id="etm_fakeElement_' + etm_counter + '"></textarea>';	
+			}
+			 		
 
 		} else if ( typeOfInput == "password" ) {
 			//add a password
@@ -101,7 +109,14 @@
 			//now start the process
 			var etm_label = jQuery("#etm_namer").val();
 			var etm_newElement = '<div id="etm_element_' + etm_counter + '">';
-			etm_newElement =  etm_newElement + '<p>' + etm_label + '<br> <select id="etm_fakeElement_' + etm_counter + '">';
+			etm_newElement =  etm_newElement + '<p>' + etm_label;
+			//is it a required field?
+			if( jQuery("#etm_required").is(":checked") ) {			
+				etm_newElement = etm_newElement + ' (required)<br> <select id="etm_fakeElement_' + etm_counter + '" required>';
+				required = 1;
+			} else {
+				etm_newElement = etm_newElement + '<br> <select id="etm_fakeElement_' + etm_counter + '">';
+			}			
 			etm_newElement = etm_newElement + etm_clonedOptions + "</select>";
 
 			//now get the options into a string
@@ -122,8 +137,13 @@
 			//now start the process
 			var etm_label = jQuery("#etm_namer").val();
 			var etm_newElement = '<div id="etm_element_' + etm_counter + '">';
-			etm_newElement =  etm_newElement + '<p>' + etm_label + '<br>';
-			etm_newElement = etm_newElement + etm_clonedOptions;
+			etm_newElement =  etm_newElement + '<p>' + etm_label;
+			//is it a required field?
+			if( jQuery("#etm_required").is(":checked") ) {			
+				etm_newElement = etm_newElement + ' (required)';
+				required = 1;
+			}
+			etm_newElement = etm_newElement + '<br>' + etm_clonedOptions;
 
 			//now get the options into a string
 			jQuery("#etm_radioDemo input").each(function(){
@@ -202,6 +222,7 @@
 	function etm_addTextAreaForm() {
 		//show the form			
 		var etm_dataToAdd = '<p>Text to print before this large text box: <input id="etm_namer" type="text" required></p>';		
+		etm_dataToAdd = etm_dataToAdd + '<p>Required? <input id="etm_required" type="checkbox"></p>';
 		etm_dataToAdd = etm_dataToAdd + '<input type="hidden" id="etm_type" value="textarea">';
 		
 		jQuery("#etm_work_area").append(etm_dataToAdd);
@@ -229,11 +250,12 @@
 	function etm_addSelectForm() {
 		//show the form			
 		var etm_dataToAdd = '<p>Text to print before this dropbown select box: <input id="etm_namer" type="text" required></p>';
+		etm_dataToAdd = etm_dataToAdd + '<p>Required? <input id="etm_required" type="checkbox"></p>';
 		etm_dataToAdd = etm_dataToAdd + '<p>Next select box option: <input id="etm_optioner" name="etm_optioner" type="text"><br>';
 		etm_dataToAdd = etm_dataToAdd + ' <a href="#" onclick="etm_addOption(\'select\'); return false;">Add This Option To My Select Box</a></p>';
 		etm_dataToAdd = etm_dataToAdd + '<p id="etm_notifier" style="display:none;"></p>';
 		etm_dataToAdd = etm_dataToAdd + '<p>Your Select Box So Far: <br>';
-		etm_dataToAdd = etm_dataToAdd + '<span id="etm_selectDemoLabel"></span><select id="etm_selectDemo"><option>Please select one...</option></select></p>';
+		etm_dataToAdd = etm_dataToAdd + '<span id="etm_selectDemoLabel"></span><select id="etm_selectDemo"></select></p>';
 		etm_dataToAdd = etm_dataToAdd + '<input type="hidden" id="etm_type" value="select">';
 		
 		jQuery("#etm_work_area").append(etm_dataToAdd);
@@ -246,6 +268,7 @@
 	function etm_addRadioForm() {
 		//show the form			
 		var etm_dataToAdd = '<p>Text to print before this list of choices: <input id="etm_namer" type="text" required></p>';
+		etm_dataToAdd = etm_dataToAdd + '<p id="etm_required_area">Required? <input id="etm_required" type="checkbox"></p>';
 		etm_dataToAdd = etm_dataToAdd + '<p>Label for this choice: <input id="etm_optioner" name="etm_optioner" type="text"><br>';
 		etm_dataToAdd = etm_dataToAdd + ' <a href="#" onclick="etm_addOption(\'radio\'); return false;">Add This Option To My List</a></p>';
 		etm_dataToAdd = etm_dataToAdd + '<p id="etm_notifier" style="display:none;"></p>';
@@ -282,14 +305,19 @@
 			//select box
 
 			//first lets update the label for the demo element
-			jQuery("#etm_selectDemoLabel").text( jQuery("#etm_namer").val() );
+			//is it required?						
+			if( jQuery("#etm_required").is(":checked") ) {							
+				jQuery("#etm_selectDemoLabel").text( jQuery("#etm_namer").val() + ' (required) ');
+			} else {
+				jQuery("#etm_selectDemoLabel").text( jQuery("#etm_namer").val() );
+			}
 			
 			//next let's add the option to the demo element...assuming it's not empty
 			if( jQuery("#etm_optioner").val() == '' ) {
 				alert("You must first type an option value.");
 				return false;
 			}
-			jQuery("#etm_selectDemo").append("<option value='" + jQuery('#etm_optioner').val() + "''>" + jQuery('#etm_optioner').val() + "</option>");
+			jQuery("#etm_selectDemo").append("<option value='" + jQuery('#etm_optioner').val() + "'>" + jQuery('#etm_optioner').val() + "</option>");
 			
 			//now let's clear the optioner
 			jQuery("#etm_optioner").val('');
@@ -310,14 +338,25 @@
 			//radio
 
 			//first lets update the label for the demo element
-			jQuery("#etm_radioDemoLabel").text( jQuery("#etm_namer").val() );
+			//is it required?						
+			if( jQuery("#etm_required").is(":checked") ) {							
+				jQuery("#etm_radioDemoLabel").text( jQuery("#etm_namer").val() + ' (required) ');
+				var add_required = "required";
+			} else {
+				jQuery("#etm_radioDemoLabel").text( jQuery("#etm_namer").val() );
+				var add_required = "";
+			}						
 			
 			//next let's add the option to the demo element...assuming it's not empty
 			if( jQuery("#etm_optioner").val() == '' ) {
 				alert("You must first type an option value.");
 				return false;
 			}
-			jQuery("#etm_radioDemo").append("<input type='radio' name='etm_demoRadio' value='" + jQuery('#etm_optioner').val() + "'> " + jQuery('#etm_optioner').val() + "<br>");
+			jQuery("#etm_radioDemo").append("<input type='radio' name='etm_demoRadio' value='" + jQuery('#etm_optioner').val() + "' " + add_required + "> " + jQuery('#etm_optioner').val() + "<br>");
+
+			//if the required box is still visible, let's hide it so we don't have to worry
+			//about several options being required and others not in the same element
+			jQuery("#etm_required_area").html( "Required? You may not alter this value after starting this element. ");
 
 			//now let's clear the optioner
 			jQuery("#etm_optioner").val('');
@@ -329,7 +368,9 @@
 						jQuery("#etm_notifier").text('');
 					})
 				}, 800);
-			});						
+			});				
+
+
 			
 		} else if(typeOfInput == "checkbox") {
 			//checkbox
