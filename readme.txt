@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: form, custom, contact, email, connect, easy, ellytronic
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 
 A custom form maker that allows users to build their own forms easily and without any knowledge of coding or progamming. 
 
@@ -52,6 +52,9 @@ N/A
 
 
 == Changelog ==
+
+= 1.0.4 = 
+Fixed stable tag to display readme correctly.
 
 = 1.0.3 = 
 Updated change log on readme.txt
