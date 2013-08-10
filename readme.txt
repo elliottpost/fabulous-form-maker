@@ -52,6 +52,13 @@ N/A
 
 
 == Changelog ==
+
+= 1.0.2 =
+Corrected description to meet character limit on readme.txt
+
+= 1.0.1 = 
+Edited tags on readme.txt
+
 = 1.0.0 =
 Requested plugin to be added to repository
 
