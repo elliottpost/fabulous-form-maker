@@ -53,6 +53,9 @@ N/A
 
 == Changelog ==
 
+= 1.0.3 = 
+Updated change log on readme.txt
+
 = 1.0.2 =
 Corrected description to meet character limit on readme.txt
 
