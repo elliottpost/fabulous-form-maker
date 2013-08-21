@@ -4,7 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: form, custom, contact, email, connect, easy, ellytronic
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.0.5
+Stable tag: 1.0.6
+License: GPLv2
 
 A custom form maker that allows users to build their own forms easily and without any knowledge of coding or progamming. 
 
@@ -21,7 +22,7 @@ NOTE: This plugin currently supports only one form per website.
 * [Submit issues to the author](mailto:iwork@ellytronic.com)
 
 =  Features =
-* Users can add a variety of input boxes, textareas, and select boxes.  No support yet for <datalist>.
+* Users can add a variety of input boxes, textareas, and select boxes.
 * Users can completely style form elements by calling the form id before the targeted elements in their CSS.
 * Supports required textboxes and password fields.
 
@@ -48,10 +49,13 @@ Video tutorial coming soon...
 
 
 == Other Notes ==
-N/A
+Future versions to include special character prevention
 
 
 == Changelog ==
+
+= 1.0.6 =
+Fixed a typo in the features list. 
 
 = 1.0.5 = 
 Added support for required radio inputs.

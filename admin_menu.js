@@ -49,6 +49,50 @@
 	});
 
 
+	/**
+	* Cleans the fields (removes special characters)
+	*
+	* @since 1.0.6
+	*/
+	function etm_cleanFields(the_field,is_uri) {	
+		//make is_uri optional	
+		is_uri = (typeof is_uri === "undefined") ? false : is_uri;
+		
+		//remove extra spaces
+		the_field = jQuery.trim(the_field);				
+
+		//different characters to clean if it's a URI
+		if(!is_uri) {
+			var entityMap = {
+			    "&": "&amp;",
+			    "<": "&lt;",
+			    ">": "&gt;",
+			    '"': '&quot;',
+			    "'": '&#39;',
+			    "`": '&#39;',
+			    "/": '&#x2F;'
+			};  
+
+			the_field = String(the_field).replace(/[&<>"`'\/]/g, function (s) {
+				return entityMap[s];
+			});		    
+
+	    } else {
+			var entityMap = {			    
+			    "<": "&lt;",
+			    ">": "&gt;",
+			    '"': '&quot;',
+			    "'": '&#39;',
+			    "`": '&#39;',		    
+			    " ": '%20'	
+			};  
+	    	the_field = String(the_field).replace(/[<>"'` ]/g, function (s) {
+	    		return entityMap[s];
+	    	});				    	
+	    }
+	    
+		return the_field;
+	}	
 	
 
 	//adds the fields
