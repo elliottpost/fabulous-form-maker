@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: form, custom, contact, email, connect, easy, ellytronic
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2
 
 A custom form maker that allows users to build their own forms easily and without any knowledge of coding or progamming. 
@@ -53,6 +53,9 @@ Future versions to include special character prevention
 
 
 == Changelog ==
+
+= 1.0.7 =
+1.0.6 package was corrupted or not uploaded correctly. Reuploading.
 
 = 1.0.6 =
 Fixed a typo in the features list. 
