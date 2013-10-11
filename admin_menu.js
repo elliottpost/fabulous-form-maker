@@ -343,6 +343,15 @@
 		jQuery("#etm_selectorContainer").hide(0);		
 	}				
 
+	//edits an element
+	function etm_editElement(ele_ID) {	
+	}
+
+	//processes an edit
+	function etm_doEditElement(ele_ID) {
+
+	}
+
 	//adds an option
 	function etm_addOption(typeOfInput) {
 		if(typeOfInput == "select") {

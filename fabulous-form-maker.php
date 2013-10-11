@@ -3,7 +3,7 @@
 Plugin Name: Fabulous Form Maker
 Plugin URI: http://wordpress.org/plugins/fabulous-form-maker
 Description: A custom form maker that allows users to build their own forms easily and without any knowledge of coding or progamming. Users can create text boxes, passwords fields, drop down select boxes, radio boxes, checkboxes, and text areas.
-Version: 1.0.8
+Version: 1.0.9
 Author: Ellytronic Media
 Author URI: http://ellytronic.com
 License:GPL2
@@ -62,16 +62,41 @@ function etm_send_form() {
 
 	//we have the field count, get the fields
 	for($i = 0; $i <= $fields; $i++) {
-		$data[$_POST['label_' . $i]] = $_POST['field_' . $i];
+		//if it's a checkbox, do a special system
+		if( !isset( $_POST['field_' . $i ] ) && isset( $_POST['field_' . $i . "_0" ]) ) {
+			//is a checkbox, fields are numbered differently as a result
+			$j = 0;
+			$data[$_POST['label_' . $i]] = "";
+			do {
+				//add a comma if there's a previous value
+				if($j > 0 )
+					$data[$_POST['label_' . $i]] .= ", ";
+				$data[$_POST['label_' . $i]] .= $_POST['field_' . $i . "_" . $j ];
+				$j++;
+			} while( isset( $_POST['field_' . $i . "_" . $j ] ) );
+		} else {
+			//not a checkbox, do standard
+			$data[$_POST['label_' . $i]] = $_POST['field_' . $i];
+		}
 	}
 	
 	$msg = "Hello " . $recipient['name'] . ",\nYou have a new contact request from a user on your website:\n\n";
 	foreach($data as $label=>$val) {
-		$msg .= $label . "\n " .$val ."\n\n";
+		$msg .= $label . " " .$val ."\n";
 	}
 
-	$msg .= "=====================================================";
-	$msg .= "\n\n\nDo not respond to this message. This is an automated email and your response will not be received.";
+#debug
+#echo "<pre>";
+#echo "_POST : ";
+#print_r($_POST);
+#echo "data : ";
+#print_r($data);
+#echo "msg : ";
+#echo $msg;
+#die();
+
+	$msg .= "\n\n=====================================================\n";
+	$msg .= "Do not respond to this message. This is an automated email and your response will not be received.\n";
 	if(!wp_mail( $recipient['email'], "Contact request from your website", $msg )) {
 		wp_die("Sorry, your message could not be sent. Please notify the site owner if this issue persists.");
 	}		
@@ -85,14 +110,15 @@ function etm_print_form() {
 		do_action( 'etm_act_send_form');		
 		return "<div class='success'>Thank you! Your message has been sent.</div>";		
 	} else {
-		$form = '<style>';
-		$form .= '#ellytronic-contact label, #ellytronic-contact input, #ellytronic-contact select, #ellytronic-contact textarea {display:block;}';
-		$form .= '#ellytronic-contact input, #ellytronic-contact select, #ellytronic-contact textarea {margin-bottom:1em;}';
-		$form .= '#ellytronic-contact input[type="radio"], #ellytronic-contact input[type="checkbox"] {display:inline; margin:0;}';
-		$form .= '#ellytronic-contact label {margin-top:0.8em;}';
-		$form .= '.etm_padTop {padding-top:1.5em;}';
-		$form .= '</style>';
-		$form .= '<form id="ellytronic-contact" method="post" action="#">';
+		$nl = PHP_EOL;
+		$form = $nl . $nl .'<style>' . $nl;
+		$form .= '#ellytronic-contact label, #ellytronic-contact input, #ellytronic-contact select, #ellytronic-contact textarea {display:block;}' . $nl;
+		$form .= '#ellytronic-contact input, #ellytronic-contact select, #ellytronic-contact textarea {margin-bottom:1em;}' . $nl;
+		$form .= '#ellytronic-contact input[type="radio"], #ellytronic-contact input[type="checkbox"] {display:inline; margin:0;}' . $nl;
+		$form .= '#ellytronic-contact label {margin-top:0.8em;}' . $nl;
+		$form .= '.etm_padTop {padding-top:1.5em;}' . $nl;
+		$form .= '</style>' . $nl;
+		$form .= '<form id="ellytronic-contact" method="post" action="#">' . $nl;
 			
 		global $wpdb;
 		$table_name = $wpdb->prefix . "etm_contact";		
@@ -113,57 +139,61 @@ function etm_print_form() {
 
 			if($field->field_type == "text") {
 				//text field
-				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
-				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
-				$form .= "<input type='text' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">";
+				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>"  . $nl;
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+				$form .= "<input type='text' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">" . $nl;
 
 			} elseif($field->field_type == "password") {
 				//password
-				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
-				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
-				$form .= "<input type='password' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">";
+				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+				$form .= "<input type='password' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">" . $nl;
 
 			} elseif($field->field_type == "textarea") {
 				//textarea
-				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
-				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
-				$form .= "<textarea name='field_" . $i . "' id='field_" . $i . "' rows='5' cols='50' " . $required . "></textarea>";				
+				$form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+				$form .= "<textarea name='field_" . $i . "' id='field_" . $i . "' rows='5' cols='50' " . $required . "></textarea>" . $nl;				
 			
 			} elseif($field->field_type == "select") {
 				//select
-				$form .= "<label for='" . $i . "'>" . $field->text_before_field . $asterisk . "</label>";
-				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";
-				$form .= "<select name='field_" . $i . "' id='field_" . $i . "' " . $required . ">";
+				$form .= "<label for='" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+				$form .= "<select name='field_" . $i . "' id='field_" . $i . "' " . $required . ">" . $nl;
 				$etm_fields = explode('|-etm-|', $field->field_options);
 				foreach($etm_fields as $field_val) {
-					$form .= "<option value='" . $field_val . "'>" . $field_val . "</option>";
+					$form .= "<option value='" . $field_val . "'>" . $field_val . "</option>" . $nl;
 				}
 				$form .= "</select>";				
 			} elseif($field->field_type == "radio") {
 				//radio				
-				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";	
-				$form .= "<label>" . $field->text_before_field . $asterisk . "</label>";			
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;	
+				$form .= "<label>" . $field->text_before_field . $asterisk . "</label>" . $nl;			
 				$etm_fields = explode('|-etm-|', $field->field_options);
 				foreach($etm_fields as $field_val) {					
-					$form .= "<input type='radio' name='field_" . $i . "' class='field_" . $i . "' value='" . $field_val . "' " . $required . "> " . $field_val . "<br>";
+					$form .= "<input type='radio' name='field_" . $i . "' class='field_" . $i . "' value='" . $field_val . "' " . $required . "> " . $field_val . "<br>" . $nl;
 				}						
 			}  elseif($field->field_type == "checkbox") {
-				//radio				
-				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>";				
-				$form .= "<label>" . $field->text_before_field . $asterisk . "</label>";
+				//checkbox				
+				$j = 0;//checkbox number
+
+				$form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;				
+				$form .= "<label>" . $field->text_before_field . $asterisk . "</label>" . $nl;
 				$etm_fields = explode('|-etm-|', $field->field_options);
 				foreach($etm_fields as $field_val) {					
-					$form .= "<input type='checkbox' name='field_" . $i . "' class='field_" . $i . "' value='" . $field_val . "'> " . $field_val . "<br>";
-				}						
+					$form .= "<input type='checkbox' name='field_" . $i . "_" . $j ."' class='field_" . $i . "' value='" . $field_val . "'> " . $field_val . "<br>" . $nl;
+					$j++;
+				}		
+
 			} 
 			$i++;
 		}
 
 		//how many fields? subtract the extra count
 		$i--;
-		$form .= "<input type='hidden' value='" . $i ."' id='etm_field_count' name='etm_field_count'>";
-		$form .= '<p class="etm_padTop"><input type="submit" id="etm_submit" name="etm_submit" value="Submit"></p>';
-		$form .= '</form>';
+		$form .= "<input type='hidden' value='" . $i ."' id='etm_field_count' name='etm_field_count'>" . $nl;
+		$form .= '<p class="etm_padTop"><input type="submit" id="etm_submit" name="etm_submit" value="Submit"></p>' . $nl;
+		$form .= '</form>' . $nl . $nl;
 
 		//send it back for printing
 		return $form;
@@ -215,15 +245,18 @@ register_activation_hook( __FILE__, 'etm_contact_install' );
 
 //load the admin scripts
 function etm_admin_scripts() {
-	wp_enqueue_script( "etm_contact", plugins_url( "/admin_menu.js", __FILE__ ), array("jquery") );
+   if( 'etm-contact' != $_GET['page'] )
+        return;
+	wp_enqueue_script( "etm_contact", plugins_url( "admin_menu.js", __FILE__ ), array("jquery") );
 }
 add_action('admin_enqueue_scripts', 'etm_admin_scripts');
+
 
 //adds the plugin to menu and queues the admin scripts
 function etm_register_admin_menu() {
 	//add to the menu
-	#add_menu_page( "Ellytronic Contact Form", "Contact Form", "manage_options", "etm-contact", "etm_display_admin_menu" );
-	add_submenu_page('edit.php?post_type=page', 'Contact Form', 'Contact Form', 'manage_options', 'etm-contact', 'etm_display_admin_menu');	
+	add_menu_page( "Ellytronic Contact Form", "Contact Form", "manage_options", "etm-contact", "etm_display_admin_menu" );
+	#add_submenu_page('edit.php?post_type=page', 'Contact Form', 'Contact Form', 'manage_options', 'etm-contact', 'etm_display_admin_menu');	
 }
 add_action( 'admin_menu', 'etm_register_admin_menu' );
 
