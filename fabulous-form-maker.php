@@ -3,7 +3,7 @@
 Plugin Name: Fabulous Form Maker
 Plugin URI: http://wordpress.org/plugins/fabulous-form-maker
 Description: A custom form maker that allows users to build their own forms easily and without any knowledge of coding or progamming. Users can create text boxes, passwords fields, drop down select boxes, radio boxes, checkboxes, and text areas.
-Version: 1.0.9.2
+Version: 1.1.0
 Author: Ellytronic Media
 Author URI: http://ellytronic.com
 License:GPL2
@@ -81,23 +81,17 @@ function etm_send_form() {
 		}
 	}
 	
-	$msg = "Hello " . $recipient['name'] . ",\nYou have a new contact request from a user on your website:\n\n";
+	$msg = "<h1>Hello " . $recipient['name'] . ",</h1><h2>You have a new contact request from a user on your website:</h2><br><br>";
 	foreach($data as $label=>$val) {
-		$msg .= $label . " " .$val ."\n";
+		$msg .= "<p><strong>" . stripslashes( html_entity_decode( $label ) ) . "</strong> &mdash; " . stripslashes( html_entity_decode( $val ) ) ."</p>";
 	}
 
-#debug
-#echo "<pre>";
-#echo "_POST : ";
-#print_r($_POST);
-#echo "data : ";
-#print_r($data);
-#echo "msg : ";
-#echo $msg;
-#die();
+	$msg .= "<hr>";
+	$msg .= "<p style='color:#707270;'>Do not respond to this message. This is an automated email and your response will not be received.</p>";
 
-	$msg .= "\n\n=====================================================\n";
-	$msg .= "Do not respond to this message. This is an automated email and your response will not be received.\n";
+	//$headers[] = 'From: ' . get_bloginfo('name');	
+
+	add_filter('wp_mail_content_type',create_function('', 'return "text/html"; '));
 	if(!wp_mail( $recipient['email'], "Contact request from your website", $msg )) {
 		wp_die("Sorry, your message could not be sent. Please notify the site owner if this issue persists.");
 	}		
@@ -294,7 +288,11 @@ function etm_contact_update_form() {
 	global $wpdb;
 	
 	//fetch the data
-	$data = $_POST['data'];
+	//and clean it, too
+	$data = array();
+	foreach($_POST['data'] as $key=>$val) {
+		$data[$key] = stripslashes( html_entity_decode( $val ) );
+	}	
 
 	//prepare our master array
 	$newData = array();

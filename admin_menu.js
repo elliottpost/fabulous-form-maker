@@ -102,6 +102,9 @@
 		var etm_counter = jQuery("#etm_counter").val();
 		var etm_options = "";
 
+		//clean the fields
+		jQuery("#etm_namer").val( etm_cleanFields( jQuery("#etm_namer").val(), false ) );
+
 		if( typeOfInput == 'text' ) {
 			//add a text box
 			var etm_label = jQuery("#etm_namer").val();
@@ -176,7 +179,7 @@
 
 			//first lets just copy the options from the demo
 			var etm_clonedOptions = jQuery("#etm_radioDemo").html();
-			//console.log(etm_clonedOptions);
+//console.log(etm_clonedOptions);
 
 			//now start the process
 			var etm_label = jQuery("#etm_namer").val();
@@ -202,7 +205,7 @@
 
 			//first lets just copy the options from the demo
 			var etm_clonedOptions = jQuery("#etm_checkboxDemo").html();
-			//console.log(etm_clonedOptions);
+//console.log(etm_clonedOptions);
 
 			//now start the process
 			var etm_label = jQuery("#etm_namer").val();
@@ -218,7 +221,7 @@
 			//remove the last |-etm-|
 			etm_options = etm_options.substr(0, etm_options.length - 7);
 
-			//console.log(etm_options);			
+//console.log(etm_options);			
 		}
 
 		//finish the element
@@ -229,6 +232,7 @@
 
 		//add the element to the form data
 		var etm_formElement = "<input type='hidden' class='etm_toAdd' value='" + typeOfInput + "|+etm+|" + required + "|+etm+|" + etm_label + "|+etm+| " + etm_options + "' name='etm_formElement" + etm_counter + "' id='etm_formElement" + etm_counter + "' form='etm_contact'>";
+//console.log("etm_formElement: " + etm_formElement);
 		jQuery("#etm_form_data").append(etm_formElement);
 
         //increase our counter
@@ -370,7 +374,7 @@
 				alert("You must first type an option value.");
 				return false;
 			}
-			jQuery("#etm_selectDemo").append("<option value='" + jQuery('#etm_optioner').val() + "'>" + jQuery('#etm_optioner').val() + "</option>");
+			jQuery("#etm_selectDemo").append("<option value='" + etm_cleanFields(jQuery('#etm_optioner').val(), false) + "'>" + etm_cleanFields(jQuery('#etm_optioner').val()) + "</option>");
 			
 			//now let's clear the optioner
 			jQuery("#etm_optioner").val('');
@@ -405,7 +409,7 @@
 				alert("You must first type an option value.");
 				return false;
 			}
-			jQuery("#etm_radioDemo").append("<input type='radio' name='etm_demoRadio' value='" + jQuery('#etm_optioner').val() + "' " + add_required + "> " + jQuery('#etm_optioner').val() + "<br>");
+			jQuery("#etm_radioDemo").append("<input type='radio' name='etm_demoRadio' value='" + etm_cleanFields(jQuery('#etm_optioner').val(), false) + "' " + add_required + "> " + etm_cleanFields(jQuery('#etm_optioner').val(), false) + "<br>");
 
 			//if the required box is still visible, let's hide it so we don't have to worry
 			//about several options being required and others not in the same element
@@ -436,7 +440,7 @@
 				alert("You must first type an option value.");
 				return false;
 			}
-			jQuery("#etm_checkboxDemo").append("<input type='checkbox' name='etm_demoCheckbox' value='" + jQuery('#etm_optioner').val() + "'> " + jQuery('#etm_optioner').val() + "<br>");
+			jQuery("#etm_checkboxDemo").append("<input type='checkbox' name='etm_demoCheckbox' value='" + etm_cleanFields(jQuery('#etm_optioner').val(), false) + "'> " + etm_cleanFields(jQuery('#etm_optioner').val(), false) + "<br>");
 
 			//now let's clear the optioner
 			jQuery("#etm_optioner").val('');
@@ -514,7 +518,7 @@
 		data.action = "etm_contact_update_form";
 		data.data = formData;	
 
-		//console.log(data);
+//console.log(data);
 		
 		//submit the form
 		jQuery.post(ajaxurl, data, function(response) {
@@ -530,7 +534,7 @@
 						});
 					}, 5000);
 				});
-				//console.log(response);
+//console.log(response);
 
 			} else {
 				jQuery("#etm_update").html("<p>Database Error: Please notify webmaster</p>");
@@ -544,7 +548,7 @@
 						});
 					});
 				});				
-				//console.log(response);
+//console.log(response);
 			}			
 		});
 	}
@@ -557,7 +561,7 @@
 			etm_email: jQuery("#etm_recipient_email").val()
 		};
 
-		//console.log(data);
+//console.log(data);
 
 		//submit the form
 		jQuery.post(ajaxurl, data, function(response) {
