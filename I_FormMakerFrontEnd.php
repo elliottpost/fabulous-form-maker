@@ -19,7 +19,7 @@ interface I_FormMakerFrontEnd {
 	 * returns the default CSS for this plugin
 	 * @return String $css
 	 */
-	public static function getCss();
+	//public static function getCss();
 
 	/**
 	 * sends the completed form to an adapter
