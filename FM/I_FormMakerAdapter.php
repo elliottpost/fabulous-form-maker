@@ -1,6 +1,6 @@
 <?php
 /**
- * @todo add description of file
+ * This adapter interfaces acts as base requirements for any CMS adapter to use this plugin
  */
 namespace FM;
 
@@ -13,7 +13,7 @@ interface I_FormMakerAdapter {
 	 * and then forwards cleaned data to send method
 	 * @throws \Exception if $_POST data is missing required fields
 	 */
-	public static function receiveFormSubmission();
+	public function receiveFormSubmission();
 
 	/**
 	 * sendFormSubmission
@@ -24,7 +24,7 @@ interface I_FormMakerAdapter {
 	 * @throws \Exception if form cannot be sent
 	 * @return void
 	 */
-	public static function sendFormSubmission( $data );
+	public function sendFormSubmission( $data );
 
 	/**
 	 * setAdminName
@@ -33,14 +33,14 @@ interface I_FormMakerAdapter {
 	 * @throws \Exception if name is empty
 	 * @return void
 	 */
-	public static function setAdminName( $name );
+	public function setAdminName( $name );
 
 	/**
 	 * getAdminName
 	 * returns the admin name as saved in settings
 	 * @return String $name or null if not yet set
 	 */
-	public static function getAdminName();
+	public function getAdminName();
 
 	/**
 	 * setAdminEmail
@@ -49,14 +49,14 @@ interface I_FormMakerAdapter {
 	 * @throws \Exception if invalid email
 	 * @return void
 	 */
-	public static function setAdminEmail( $email );
+	public function setAdminEmail( $email );
 
 	/**
 	 * getAdminEmail
 	 * returns the admin email as saved in settings
 	 * @return String $email or null if not yet set
 	 */
-	public static function getAdminEmail();
+	public function getAdminEmail();
 
 	/**
 	 * saveFields
@@ -65,7 +65,7 @@ interface I_FormMakerAdapter {
 	 * @throws \Exception if $_POST does not contain any form data (form must have at least 1 field)
 	 * @throws \Exception if database issue occurs
 	 */
-	public static function saveFields();
+	public function saveFields();
 
 	/**
 	 * getFields
@@ -73,6 +73,19 @@ interface I_FormMakerAdapter {
 	 * @throws \Exception if database issue occurs
 	 * @return Field[] $fields
 	 */
-	public static function getFields();
+	public function getFields();
+
+	/**
+	 * cmsInstall
+	 * installs the plugin to the CMS
+	 * @throws \Exception if database issue occurs
+	 */
+	public function cmsInstall();
+
+	/**
+	 * cmsAdmin
+	 * this method is called every time the admin area is loaded on the plugin
+	 */
+	public function cmsAdmin();
 
 } //I_FormMakerAdapter
