@@ -4,7 +4,7 @@
  */
 namespace FM\WordPress;
 
-class Adapter implements \FM\I_FormMakerAdapter {
+class Adapter implements \FM\I_Adapter {
 
 
 	##################################
@@ -39,7 +39,6 @@ class Adapter implements \FM\I_FormMakerAdapter {
 	 * @var String: the WordPress setting Admin Email
 	 */
 	const WP_SETTING_ADMIN_EMAIL = "admin_email";
-
 
 	##################################
 	## GENERAL ADAPTER VARS
@@ -271,20 +270,43 @@ class Adapter implements \FM\I_FormMakerAdapter {
 	} //getFields
 
 	/**
-	 * cmsInstall
-	 * installs the plugin to the CMS
-	 * @throws \Exception if database issue occurs
+	 * install
+	 * installs the plugin to WordPress
 	 */
-	public function cmsInstall() {
+	public function install() {
+		//included required files
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );	
 
-	} //cmsInstall
+		//create the form table
+		//finicky SQL, read https://codex.wordpress.org/Creating_Tables_with_Plugins for details
+		$tableName = $wpdb->prefix . static::TABLE_FORMS;
+		$sql = "CREATE TABLE IF NOT EXISTS {$tableName} (
+		  id mediumint(5) NOT NULL AUTO_INCREMENT,	  
+		  text_before_field text NOT NULL,
+		  field_type tinytext NOT NULL,
+		  field_options text NOT NULL,
+		  required boolean NOT NULL,
+		  UNIQUE KEY id (id)
+		);";
+		/* table 
+		id = field ID
+		text_before_field = the text before the field
+		field_type = text, password, calendar, select, radio, etc 
+		field_options = for select/checkbox/radios...
+		required = is this field required to be filled? */
+		dbDelta( $sql );
 
-	/**
-	 * cmsAdmin
-	 * this method is called every time the admin area is loaded on the plugin
-	 */
-	public function cmsAdmin() {
-
-	} //cmsAdmin
+		//now create the settings table
+		$tableName = $wpdb->prefix . static::TABLE_SETTINGS;
+		$sql = "CREATE TABLE IF NOT EXISTS {$tableName} (
+		  id smallint(5) NOT NULL AUTO_INCREMENT,	  
+		  recipient_name text NOT NULL,
+		  recipient_email varchar(100) NOT NULL,
+		  UNIQUE KEY id (id)
+		);";	
+		dbDelta( $sql );
+		
+		add_option( "etm_contact_db_version", \DB_VERSION );
+	} //install
 
 } //Adapter

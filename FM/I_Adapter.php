@@ -75,17 +75,4 @@ interface I_FormMakerAdapter {
 	 */
 	public function getFields();
 
-	/**
-	 * cmsInstall
-	 * installs the plugin to the CMS
-	 * @throws \Exception if database issue occurs
-	 */
-	public function cmsInstall();
-
-	/**
-	 * cmsAdmin
-	 * this method is called every time the admin area is loaded on the plugin
-	 */
-	public function cmsAdmin();
-
 } //I_FormMakerAdapter

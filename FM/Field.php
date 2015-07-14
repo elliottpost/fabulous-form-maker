@@ -1,64 +1,74 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: parina
- * Date: 7/12/15
- * Time: 10:50 AM
+ * This class represents a field within the form generated
+ * by the user
  */
-include 'I_Field.php';
-class Field implements I_Field
-{
+class Field implements I_Field {
 
-    public function getDeleteLink()
-    {
-//        foreach($_POST['data'] as $key=>$val) {
-//            $this->deleteData[$key] = stripslashes( html_entity_decode( $val ) );
-//        }
-//        return $this->deleteData;
-    }
+    /**
+     * @var String: the field type
+     */
+    private $_type;
 
-    public function getHtml()
-    {
+    /**
+     * @var bool: is a field required
+     */
+    private $_required;
 
-    }
+    /**
+     * @var String: the label text
+     */
+    private $_textBefore;
 
-    public function setFieldType($fieldType)
-    {
-        
-    }
+    /**
+     * @var String[]: the field options (for radio & checkboxes)
+     */
+    private $_options;
 
-    public function setIsRequired($required)
-    {
+    public function setFieldType( $fieldType ) {
+        $this->_type = $fieldType;
+    } //setFieldType
 
-    }
+    public function setIsRequired( $required ) {
+        $this->_required = (bool) $required;
 
-    public function setTextBeforeField($textBeforeField)
-    {
+    } //setIsRequired
 
-    }
+    public function setTextBeforeField( $textBeforeField ) {
+        $this->_textBefore = $textBeforeField;
+    } //setTextBeforeField
 
-    public function setFieldOptions($fieldOptions)
-    {
+    public function setFieldOptions( $fieldOptions ) {
+        $this->_options = $fieldOptions;
+    } //setFieldOptions
 
-    }
+    public function getFieldType() {
+        return $this->_type;
+    } //getFieldType
 
-    public function getFieldType()
-    {
+    public function getIsRequired() {
+        return $this->_required;
+    } //getIsRequired
 
-    }
+    public function getTextBeforeField() {
+        return $this->_textBefore;
+    } //getTextBeforeField
 
-    public function getIsRequired()
-    {
+    public function getFieldOptions() {
+        return $this->_options;
+    } //getFieldOptions
 
-    }
+    /**
+     * @todo
+     */
+    public function getDeleteLink() {
 
-    public function getTextBeforeField()
-    {
+    } //getDeleteLink
 
-    }
+    /**
+     * @todo
+     */
+    public function getHtml() {
 
-    public function getFieldOptions()
-    {
-
-    }
-}
+    } //getHtml
+} //Field
