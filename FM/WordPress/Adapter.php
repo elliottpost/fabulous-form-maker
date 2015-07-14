@@ -92,13 +92,13 @@ class Adapter implements \FM\I_Adapter {
 		$fields = $this->_db->get_results( "SELECT * FROM " . static::TABLE_FORMS );
 
 		//list the fields
-		foreach( $fields as $field ) {
-			$f = new \FM\Field;
+		foreach( $fields as $k => $field ) {
+			$f = new \FM\Field( $k );
 			$f->setFieldType( $field['field_type'] );
 			$f->setIsRequired( $field['required'] );
 			$f->setTextBeforeField( $field['text_before_field'] );
 			$f->setFieldOptions( $field['field_options'] );
-			$this->_fields[ $i ] = $f;
+			$this->_fields[] = $f;
 		}
 	} //populateInstance
 

@@ -2,37 +2,53 @@
 /**
  * This interface defines the structure of the Field elements within a Fabulous Form
  */
+
+namespace FM;
+
 interface I_Field {
 
+    /**
+     * creates the field, assigns the ID to the field.
+     * @param int $id: the field ID
+     * @throws \Exception if ID is not numeric
+     */
+    public function __construct( int $id );
+
 	/** 
-	 * setFieldType
+	 * setType
 	 * @param String $fieldType: enum of input types (text, textarea, etc)
 	 */
-	public function setFieldType( $fieldType );
+	public function setType( String $fieldType );
 
 	/** 
 	 * setIsRequired
 	 * @param bool $required: is the field required or not
 	 */
-	public function setIsRequired( $required );
+	public function setIsRequired( bool $required );
 
 	/** 
-	 * setTextBeforeField
+	 * setTextBefore
 	 * @param String $textBeforeField: the label text
 	 */
-	public function setTextBeforeField( $textBeforeField );
+	public function setTextBefore( String $textBeforeField );
 
 	/** 
-	 * setFieldOptions
-	 * @param String[] $fieldOptions: an array of options for checkboxes and radio input types
+	 * setOptions
+	 * @param String $fieldOptions: a String of options for checkboxes and radio input types using a delimeter to separate values
 	 */
-	public function setFieldOptions( $fieldOptions );
+	public function setOptions( String $fieldOptions );
 
 	/** 
-	 * getFieldType
+	 * getId
+	 * @return int $fieldId: the id of the field
+	 */
+	public function getId();
+
+	/** 
+	 * getType
 	 * @return String $type: see setter function
 	 */
-	public function getFieldType();
+	public function getType();
 
 	/** 
 	 * getIsRequired
@@ -41,28 +57,27 @@ interface I_Field {
 	public function getIsRequired();
 
 	/** 
-	 * getTextBeforeField
+	 * getTextBefore
 	 * @return String $text: see setter function
 	 */
-	public function getTextBeforeField();
+	public function getTextBefore();
 
 	/** 
-	 * getFieldOptions
+	 * getOptions
 	 * @return String[] $options: see setter function
 	 */
-	public function getFieldOptions();
+	public function getOptions();
 
 	/**
-	 * returns the field in HTML format
+	 * returns the field for displaying on the website in HTML format
 	 * @return String $html;
 	 */
-	public function getHtml();
+    public function getFrontEndHtml();
 
 	/**
-	 * returns the link as <a> tag with css classes 
-	 * to allow the field to be deleted in admin menu using javascript
-	 * @return String $aTag
+	 * returns the field for displaying in the admin section in HTML format
+	 * @return String $html;
 	 */
-	public function getDeleteLink();
+    public function getAdminHtml();
 
 } //I_Field 

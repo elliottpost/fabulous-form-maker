@@ -47,7 +47,7 @@ add_action( 'admin_menu', '\FM\WordPress\registerAdminMenu' );
  * display the admin form
  */
 function displayAdminMenu() {
-	$editor->showEditor();
+	echo Editor::getEditor();
 } //displayAdminMenu
 //intentionally no action here, this method is called from registerAdminMenu
 

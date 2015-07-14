@@ -2,27 +2,31 @@
 /**
  * This interface defines the requirements for the admin editor of this plugin
  */
+
+namespace FM;
+
 interface I_Editor {
 
-	/** 
-	 * getFieldEditor
-	 * returns the html for the editor used to add new fields to the fabulous form
-	 * @return String $html
-	 */
-	public static function getFieldEditor();
 
 	/**
-	 * getSettingsEditor
+	 * getSettings
 	 * returns the html for the form to edit fabulous form settings
 	 * @return String $html
 	 */
-	public static function getSettingsEditor();
+	public static function getSettings();
 
 	/**
-	 * getUserMadeForm
-	 * returns the html for the fabulous form the user has constructed
+	 * getWorkspace
+	 * returns the html for the field editor & the fabulous form the user has constructed
 	 * @return String $html
 	 */
-	public static function getUserMadeForm();
+	public static function getWorkspace();
+
+	/**
+	 * getEditor
+	 * returns the html for the entire editor page
+	 * @return String $html
+	 */
+	public static function getEditor();
 
 } //I_Editor 
