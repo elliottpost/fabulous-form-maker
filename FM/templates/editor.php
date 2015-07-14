@@ -18,8 +18,6 @@
 
 <div class="wrap">
 <div id='etm_update'></div>	
-	
-	<?php screen_icon(); ?>
 
 	<h2>Custom Contact Form</h2>
 	<h3>Plug In Created By <a href="http://ellytronic.media" target="_blank">Ellytronic Media</a></h3>

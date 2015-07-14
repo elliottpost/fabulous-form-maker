@@ -505,7 +505,7 @@
 		if(field_counter < 0 || field_counter == null) {
 			//nope
 			jQuery("#etm_update").html("<p>You must first add a field before you can update the form!</p>");
-			jQuery("#etm_update").addClass("error");
+			jQuery("#etm_update").removeClass("updated").addClass("error");
 			jQuery("#etm_update").fadeIn(500);				
 			setTimeout(5000, function(){
 				jQuery("#etm_update").fadeOut(500, function(){
@@ -525,7 +525,7 @@
 console.log(response);
 			if(response == "true" || response == true) {
 				jQuery("#etm_update").html("<p>Contact Form Updated</p>");
-				jQuery("#etm_update").addClass("updated");
+				jQuery("#etm_update").removeClass("error").addClass("updated");
 				jQuery("html, body").animate({ scrollTop: 0 }, 300);
 				jQuery("#etm_update").fadeIn(1000, function(){
 					
@@ -540,7 +540,7 @@ console.log(response);
 			} else {
 				jQuery("#etm_update").html("<p>Database Error: Please notify webmaster</p>");
 jQuery( "#etm_update" ).after( response );
-				jQuery("#etm_update").addClass("error");
+				jQuery("#etm_update").removeClass("updated").addClass("error");
 				jQuery("html, body").animate({ scrollTop: 0 }, 300);
 				jQuery("#etm_update").fadeIn(500, function(){
 					
@@ -566,10 +566,10 @@ jQuery( "#etm_update" ).after( response );
 
 		//submit the form
 		jQuery.post(ajaxurl, data, function(response) {
-console.log( response );
+// console.log( response );
 			if(response == "true" || response == true) {
 				jQuery("#etm_update").html("<p>Settings Updated</p>");
-				jQuery("#etm_update").addClass("updated");
+				jQuery("#etm_update").removeClass("error").addClass("updated");
 				jQuery("html, body").animate({ scrollTop: 0 }, 300);
 				jQuery("#etm_update").fadeIn(1000, function(){
 					
@@ -582,8 +582,8 @@ console.log( response );
 
 			} else {
 				jQuery("#etm_update").html("<p>Database Error: Please notify webmaster</p>");
-jQuery("#etm_update").addClass("error");
-				jQuery( "#etm_update" ).after( response );
+				jQuery("#etm_update").removeClass("updated").addClass("error");
+// jQuery( "#etm_update" ).after( response );
 				jQuery("html, body").animate({ scrollTop: 0 }, 300);
 				jQuery("#etm_update").fadeIn(500, function(){
 					

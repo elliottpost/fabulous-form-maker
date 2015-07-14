@@ -94,10 +94,10 @@ class Adapter implements \FM\I_Adapter {
 		//list the fields
 		foreach( $fields as $k => $field ) {
 			$f = new \FM\Field( $k );
-			$f->setFieldType( $field['field_type'] );
-			$f->setIsRequired( $field['required'] );
-			$f->setTextBeforeField( $field['text_before_field'] );
-			$f->setFieldOptions( $field['field_options'] );
+			$f->setType( $field->field_type );
+			$f->setIsRequired( $field->required );
+			$f->setTextBefore( $field->text_before_field );
+			$f->setOptions( $field->field_options );
 			$this->_fields[] = $f;
 		}
 	} //populateInstance
