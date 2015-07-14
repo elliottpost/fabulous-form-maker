@@ -14,7 +14,7 @@ class Editor implements I_Editor {
 	 */
 	public static function getSettings() {
 		ob_start();
-		require_once PLUGIN_PATH . "FM" . DS . "templates" . DS . "editor-settings.php";
+		require_once \FM_PLUGIN_PATH . "FM" . DS . "templates" . DS . "editor-settings.php";
 		return ob_get_clean();
 	} //getSettings
 
@@ -25,7 +25,7 @@ class Editor implements I_Editor {
 	 */
 	public static function getWorkspace() {
 		ob_start();
-		require_once PLUGIN_PATH . "FM" . DS . "templates" . DS . "editor-workspace.php";
+		require_once \FM_PLUGIN_PATH . "FM" . DS . "templates" . DS . "editor-workspace.php";
 		return ob_get_clean();
 	} //getWorkspace
 
@@ -36,7 +36,10 @@ class Editor implements I_Editor {
 	 */
 	public static function getEditor() {
 		ob_start();
-		require_once PLUGIN_PATH . "FM" . DS . "templates" . DS . "editor.php";
+		require_once \FM_PLUGIN_PATH . "FM" . DS . "templates" . DS . "editor.php";
+		echo "<script>";
+		require_once \FM_PLUGIN_PATH . "FM" . DS . "admin.js";
+		echo "</script>";
 		return ob_get_clean();
 	} //getEditor
 

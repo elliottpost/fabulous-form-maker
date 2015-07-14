@@ -64,10 +64,9 @@ $a = FM_NAMESPACE_PATH . "Adapter";
 $adapter = new $a;
 
 //load any support files
-$supportFile =  FM_NAMESPACE_PATH . "support.php";
+$supportFile = FM_PLUGIN_PATH . FM_NAMESPACE_PATH . "support.php";
 if( file_exists( $supportFile ) )
 	require_once $supportFile;
-
 
 
 

@@ -28,12 +28,12 @@ class Adapter implements \FM\I_Adapter {
 	/**
 	 * @var String: the admin email setting name
 	 */
-	const SETTING_ADMIN_EMAIL = "etm_recipient_email";
+	const SETTING_ADMIN_EMAIL = "recipient_email";
 
 	/**
 	 * @var String: the admin name setting name
 	 */
-	const SETTING_ADMIN_NAME = "etm_recipient_name";
+	const SETTING_ADMIN_NAME = "recipient_name";
 
 	/**
 	 * @var String: the WordPress setting Admin Email
@@ -77,19 +77,19 @@ class Adapter implements \FM\I_Adapter {
 	private function populateInstance() {
 		//fetch the settings	
 		$settings = $this->_db->get_row( 
-			"SELECT * FROM " . static::TABLE_SETTINGS . " ORDER BY `id` ASC LIMIT 1", 
+			"SELECT * FROM " . $this->_db->prefix . static::TABLE_SETTINGS . " ORDER BY `id` ASC LIMIT 1", 
 			ARRAY_A
 			);		
 		$rows = count( $settings );
 
 	    //if name is blank, default to admin details
-	    $this->_adminName = ( ( empty( $rows ) || empty( $settings[ static::SETTING_ADMIN_NAME ] ) ) ? "admin" : $settings[ static::TABLE_SETTINGS ] );
+	    $this->_adminName = ( ( empty( $rows ) || empty( $settings[ static::SETTING_ADMIN_NAME ] ) ) ? "admin" : $settings[ static::SETTING_ADMIN_NAME ] );
 
 	    //if email is blank, default to admin email
 	    $this->_adminEmail = ( ( empty( $rows ) || empty( $settings[ static::SETTING_ADMIN_EMAIL ] ) ) ? get_option( "admin_email", "Not Found" ) : $settings[ static::SETTING_ADMIN_EMAIL ] );
 
 		//get the fields
-		$fields = $this->_db->get_results( "SELECT * FROM " . static::TABLE_FORMS );
+		$fields = $this->_db->get_results( "SELECT * FROM " . $this->_db->prefix . static::TABLE_FORMS );
 
 		//list the fields
 		foreach( $fields as $k => $field ) {
@@ -171,12 +171,18 @@ class Adapter implements \FM\I_Adapter {
 			throw new \Exception( "A name is required" );
 
 		//update the database;
-		$wpdb->update( 
-				static::TABLE_SETTINGS, 
+		$update = $this->_db->update( 
+				$this->_db->prefix . static::TABLE_SETTINGS, 
 				array( 
 					static::SETTING_ADMIN_NAME => $name 
-					)
+					),
+				array(
+					static::SETTING_ADMIN_NAME => $this->getAdminName()
+					),
+				'%s'
 			);
+		if( $update === false )
+			throw new \Exception( "Database error occured during attempt to update name" );
 
 		$this->_adminName = $name;
 	} //setAdminName
@@ -206,12 +212,18 @@ class Adapter implements \FM\I_Adapter {
 			throw new \Exception( "A valid email is required" );
 
 		//update the database;
-		$wpdb->update( 
-				static::TABLE_SETTINGS, 
+		$update = $this->_db->update( 
+				$this->_db->prefix . static::TABLE_SETTINGS, 
 				array( 
 					static::SETTING_ADMIN_EMAIL => $email 
-					)
+					),
+				array(
+					static::SETTING_ADMIN_EMAIL => $this->getAdminEmail()
+					),
+				'%s'
 			);
+		if( $update === false )
+			throw new \Exception( "Database error occured during attempt to update name" );
 
 		$this->_adminEmail = $email;
 	} //setAdminEmail
@@ -247,7 +259,7 @@ class Adapter implements \FM\I_Adapter {
 		$newData = array();
 
 		//clean out the database;
-		$wpdb->query( "DELETE FROM " . static::TABLE_FORMS );
+		$this->_db->query( "DELETE FROM " . $this->_db->prefix . static::TABLE_FORMS );
 
 		//turn out each value separately
 		foreach( $data as $key => $val ) {		
@@ -260,8 +272,8 @@ class Adapter implements \FM\I_Adapter {
 					"field_options" => $details[3]
 				);
 			//update the database
-			if( !$wpdb->insert( 
-					static::TABLE_FORMS,
+			if( !$this->_db->insert( 
+					$this->_db->prefix . static::TABLE_FORMS,
 					$newData[ $key ]
 				) )
 				throw new \Exception( "Failed to insert the {$key} element of the form into the database" );
@@ -290,11 +302,11 @@ class Adapter implements \FM\I_Adapter {
 	 */
 	public function install() {
 		//included required files
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );	
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		//create the form table
 		//finicky SQL, read https://codex.wordpress.org/Creating_Tables_with_Plugins for details
-		$tableName = $wpdb->prefix . static::TABLE_FORMS;
+		$tableName = $this->_db->prefix . static::TABLE_FORMS;
 		$sql = "CREATE TABLE IF NOT EXISTS {$tableName} (
 		  id mediumint(5) NOT NULL AUTO_INCREMENT,	  
 		  text_before_field text NOT NULL,
@@ -312,7 +324,7 @@ class Adapter implements \FM\I_Adapter {
 		dbDelta( $sql );
 
 		//now create the settings table
-		$tableName = $wpdb->prefix . static::TABLE_SETTINGS;
+		$tableName = $this->_db->prefix . static::TABLE_SETTINGS;
 		$sql = "CREATE TABLE IF NOT EXISTS {$tableName} (
 		  id smallint(5) NOT NULL AUTO_INCREMENT,	  
 		  recipient_name text NOT NULL,
@@ -321,7 +333,25 @@ class Adapter implements \FM\I_Adapter {
 		);";	
 		dbDelta( $sql );
 		
-		add_option( "etm_contact_db_version", \DB_VERSION );
+		add_option( "etm_contact_db_version", \FM_DB_VERSION );
+
+		//now insert default settings if none exist
+		$settings = $this->_db->get_row( 
+			"SELECT * FROM " . $this->_db->prefix . static::TABLE_SETTINGS . " ORDER BY `id` ASC LIMIT 1", 
+			ARRAY_A
+			);
+
+		if( !count( $settings ) ) {
+			$insert = $this->_db->insert(
+					$this->_db->prefix . static::TABLE_SETTINGS,
+					array(
+							static::SETTING_ADMIN_EMAIL => $this->getAdminEmail(),
+							static::SETTING_ADMIN_NAME => "Admin" 
+						)
+				);
+			if( !$insert )
+				throw new \Exception( "Could not ininitialize default settings - " . $this->_db->last_error );
+		}
 	} //install
 
 } //Adapter

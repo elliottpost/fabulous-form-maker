@@ -27,6 +27,4 @@ interface I_FrontEnd {
 	 */
 	public static function sendSubmissionToAdapter();
 
-
-
 } //I_FrontEnd

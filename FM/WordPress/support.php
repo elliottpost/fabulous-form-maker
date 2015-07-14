@@ -6,14 +6,6 @@
  */
 namespace FM\WordPress;
 
-$adapter = new Adapter;
-
-function add_action( $null, $null2 ) {}
-function add_shortcode( $null, $null2 ) {
-}
-function register_activation_hook( $null, $null2 ) {}
-
-
 ##################################
 ## WordPress Actions
 ##################################
@@ -25,25 +17,13 @@ function sendForm() {
 	 * @todo 
 	 */
 	//Back-end
+	//$adapter = new Adapter;
 	// $adapter->receiveFormSubmission();
 	
 	//Front-end
 	FrontEnd::sendSubmissionToAdapter();
 } //sendForm
 add_action( 'act_send_form', '\FM\WordPress\sendForm'); 
-
-/**
- * Loads the admin scripts
- */
-function adminScripts() {
-	/**
-	 * @todo determine if we can just use the editor here
-	 */
-    if( 'etm-contact' != $_GET['page'] )
-        return;
-	wp_enqueue_script( "etm_contact", \NAMESPACE_PATH . "admin_menu.js", array("jquery") );
-} //adminScripts
-add_action('admin_enqueue_scripts', '\FM\WordPress\adminScripts');
 
 /**
  * adds the plugin to menu and queues the admin scripts
@@ -57,7 +37,7 @@ add_action( 'admin_menu', '\FM\WordPress\registerAdminMenu' );
  * display the admin form
  */
 function displayAdminMenu() {
-	echo Editor::getEditor();
+	echo \FM\Editor::getEditor();
 } //displayAdminMenu
 //intentionally no action here, this method is called from registerAdminMenu
 
@@ -65,6 +45,8 @@ function displayAdminMenu() {
  * binds WP ajax handlers to the adapter for updating settings
  */
 function updateSettings() {	
+	$adapter = new Adapter;
+
 	//squelch any undefined vars messages -- an exception will be thrown so the 
 	//php warning is not needed
 	try {
@@ -84,8 +66,10 @@ add_action('wp_ajax_etm_contact_update_settings', '\FM\WordPress\updateSettings'
  * ajax function to update the form
  */
 function updateForm() {
+	$adapter = new Adapter;
+
 	try {
-		$adapater->saveFields();
+		$adapter->saveFields();
 	} catch( \Exception $e ) {
 		die( $e->getMessage() );
 	}
@@ -123,6 +107,7 @@ add_shortcode( 'etm_contact_form', '\FM\WordPress\printForm' );
  * Installs the plugin to WordPress
  */
 function install() {
+	$adapter = new Adapter;
 	$adapter->install();
 } //install
-register_activation_hook( \PLUGIN_FILE, '\FM\WordPress\install' );
+register_activation_hook( \FM_PLUGIN_FILE, '\FM\WordPress\install' );
