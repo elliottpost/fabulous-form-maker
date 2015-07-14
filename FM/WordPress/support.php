@@ -8,15 +8,22 @@ namespace FM\WordPress;
 
 $adapter = new Adapter;
 
+function add_action( $null, $null2 ) {}
+function add_shortcode( $null, $null2 ) {
+}
+function register_activation_hook( $null, $null2 ) {}
+
 
 ##################################
 ## WordPress Actions
 ##################################
 /**
  * Binds the Front End to the action of sending the form
- * @todo
  */
 function sendForm() {	
+	/**
+	 * @todo 
+	 */
 	//Back-end
 	// $adapter->receiveFormSubmission();
 	
@@ -29,7 +36,10 @@ add_action( 'act_send_form', '\FM\WordPress\sendForm');
  * Loads the admin scripts
  */
 function adminScripts() {
-   if( 'etm-contact' != $_GET['page'] )
+	/**
+	 * @todo determine if we can just use the editor here
+	 */
+    if( 'etm-contact' != $_GET['page'] )
         return;
 	wp_enqueue_script( "etm_contact", \NAMESPACE_PATH . "admin_menu.js", array("jquery") );
 } //adminScripts
@@ -70,8 +80,10 @@ function updateSettings() {
 }
 add_action('wp_ajax_etm_contact_update_settings', '\FM\WordPress\updateSettings'); 
 
-//ajax function to update the form
-function etm_contact_update_form() {
+/**
+ * ajax function to update the form
+ */
+function updateForm() {
 	try {
 		$adapater->saveFields();
 	} catch( \Exception $e ) {

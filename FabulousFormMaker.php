@@ -1,13 +1,40 @@
 <?php
-/**
- * FabulousFormMaker.php
- * this file is the starting point for all other files in this plugin
- * this file acts as the controller 
+/*
+ Plugin Name: Fabulous Form Maker
+ Plugin URI: http://wordpress.org/plugins/fabulous-form-maker
+ Description: A custom form maker that allows users to build their own forms easily and without any knowledge of coding or progamming. Users can create text boxes, passwords fields, drop down select boxes, radio boxes, checkboxes, and text areas.
+ Version: 2.0
+ Author: Ellytronic Media
+ Author URI: http://ellytronic.com
+ License:GPL2
+ Copyright 2013  Ellytronic Media  (email : elly@ellytronic.media)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License, version 2, as 
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+
+
+
+ FabulousFormMaker.php
+ this file is the starting point for all other files in this plugin
+ this file acts as the controller 
  */
 
 //use an auto loader to load all PHP classes
+set_include_path( get_include_path() . PATH_SEPARATOR . __DIR__ );
 spl_autoload_extensions( ".php" ); // comma-separated list
 spl_autoload_register();
+
 
 //set up some constants for our plugin
 define( "DS", DIRECTORY_SEPARATOR );
@@ -30,3 +57,9 @@ $adapter = new $a;
 $supportFile =  NAMESPACE_PATH . "support.php";
 if( file_exists( $supportFile ) )
 	require_once $supportFile;
+
+
+//test functions
+/*$f = new FM\Field(1);
+echo $f->getAdminHtml();
+FM\Editor::getEditor();*/
