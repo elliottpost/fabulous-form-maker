@@ -21,7 +21,7 @@ function sendForm() {
 	// $adapter->receiveFormSubmission();
 	
 	//Front-end
-	FormMaker::sendSubmissionToAdapter();
+	FrontEnd::sendSubmissionToAdapter();
 } //sendForm
 add_action( 'act_send_form', '\FM\WordPress\sendForm'); 
 
@@ -47,7 +47,7 @@ add_action( 'admin_menu', '\FM\WordPress\registerAdminMenu' );
  * display the admin form
  */
 function displayAdminMenu() {
-	$adapter->showEditor();
+	$editor->showEditor();
 } //displayAdminMenu
 //intentionally no action here, this method is called from registerAdminMenu
 

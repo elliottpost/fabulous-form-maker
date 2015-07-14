@@ -5,7 +5,7 @@
 namespace FM;
 
 
-interface I_FormMakerFrontEnd {
+interface I_FrontEnd {
 
 	/**
 	 * getForm
@@ -29,4 +29,4 @@ interface I_FormMakerFrontEnd {
 
 
 
-} //I_FormMakerFrontEnd
+} //I_FrontEnd

@@ -5,7 +5,7 @@
 namespace FM;
 
 
-interface I_FormMakerAdapter {
+interface I_Adapter {
 
 	/**
 	 * receiveFormSubmission
@@ -75,4 +75,4 @@ interface I_FormMakerAdapter {
 	 */
 	public function getFields();
 
-} //I_FormMakerAdapter
+} //I_Adapter

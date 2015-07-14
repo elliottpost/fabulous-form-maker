@@ -19,11 +19,11 @@ define( "DB_VERSION", 1.0 );
 $config = json_decode( file_get_contents( PLUGIN_PATH . "config.json" ) );
 
 //add another constant for our namespace
-$namespace = "\FM\\" . $config->adapter;
-define( "NAMESPACE_PATH", PLUGIN_PATH . $namespace . DS );
+$namespace = "FM\\" . $config->adapter;
+define( "NAMESPACE_PATH", $namespace . DS );
 
 //create our adapter
-$a = NAMESPACE_PATH . "adapter";
+$a = NAMESPACE_PATH . "Adapter";
 $adapter = new $a;
 
 //load any support files
