@@ -30,33 +30,45 @@
  this file acts as the controller 
  */
 
-//use an auto loader to load all PHP classes
-set_include_path( get_include_path() . PATH_SEPARATOR . __DIR__ );
-spl_autoload_extensions( ".php" ); // comma-separated list
-spl_autoload_register();
-
 
 //set up some constants for our plugin
 define( "DS", DIRECTORY_SEPARATOR );
-define( "PLUGIN_PATH", __DIR__ . DS );
-define( "PLUGIN_FILE", __FILE__ );
-define( "DB_VERSION", 1.0 );
+define( "FM_PLUGIN_PATH", __DIR__ . DS );
+define( "FM_PLUGIN_FILE", __FILE__ );
+define( "FM_DB_VERSION", 1.0 );
+
+//use an auto loader to load all PHP classes
+spl_autoload_register( function( $class ) {
+    //mask the \\
+    $class = ltrim( $class, '\\' );
+
+    //if not FM namespace or sub-namespace of FM, return
+    if( strpos( $class, "FM" ) !== 0)
+        return;
+
+    //load the class
+    $path =  FM_PLUGIN_PATH . str_replace( '\\', DS, $class ) . '.php';
+
+    require_once $path;
+} );
 
 //load our config file
-$config = json_decode( file_get_contents( PLUGIN_PATH . "config.json" ) );
+$config = json_decode( file_get_contents( FM_PLUGIN_PATH . "config.json" ) );
 
 //add another constant for our namespace
 $namespace = "FM\\" . $config->adapter;
-define( "NAMESPACE_PATH", $namespace . DS );
+define( "FM_NAMESPACE_PATH", $namespace . DS );
 
 //create our adapter
-$a = NAMESPACE_PATH . "Adapter";
+$a = FM_NAMESPACE_PATH . "Adapter";
 $adapter = new $a;
 
 //load any support files
-$supportFile =  NAMESPACE_PATH . "support.php";
+$supportFile =  FM_NAMESPACE_PATH . "support.php";
 if( file_exists( $supportFile ) )
 	require_once $supportFile;
+
+
 
 
 //test functions
