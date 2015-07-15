@@ -3,7 +3,7 @@ Contributors: Ellytronic Media
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4LTTZ6YCXGV2A
 Tags: form, custom, contact, email, connect, easy, ellytronic
 Requires at least: 3.0
-Tested up to: 3.6
+Tested up to: 4.2
 Stable tag: 1.1.0
 License: GPLv2
 

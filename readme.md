@@ -2,7 +2,7 @@
 Contributors: Ellytronic Media, Elliott Post, Parina Madaan  
 Tags: form, custom, contact, email, connect, easy, ellytronic  
 Requires at least: 3.0  
-Tested up to: 3.6  
+Tested up to: 4.2  
 Stable tag: 1.1.0  
 License: GPLv2  
   
