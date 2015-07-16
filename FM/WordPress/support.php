@@ -10,22 +10,6 @@ namespace FM\WordPress;
 ## WordPress Actions
 ##################################
 /**
- * Binds the Front End to the action of sending the form
- */
-function sendForm() {	
-	/**
-	 * @todo 
-	 */
-	//Back-end
-	//$adapter = new Adapter;
-	// $adapter->receiveFormSubmission();
-	
-	//Front-end
-	FrontEnd::sendSubmissionToAdapter();
-} //sendForm
-add_action( 'act_send_form', '\FM\WordPress\sendForm'); 
-
-/**
  * adds the plugin to menu and queues the admin scripts
  */
 function registerAdminMenu() {

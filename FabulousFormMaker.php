@@ -33,9 +33,10 @@
 
 //set up some constants for our plugin
 define( "DS", DIRECTORY_SEPARATOR );
-define( "FM_PLUGIN_PATH", __DIR__ . DS );
+define( "FM_PLUGIN_PATH", __DIR__ . DIRECTORY_SEPARATOR );
 define( "FM_PLUGIN_FILE", __FILE__ );
 define( "FM_DB_VERSION", 1.0 );
+
 
 //use an auto loader to load all PHP classes
 spl_autoload_register( function( $class ) {
@@ -57,14 +58,16 @@ $config = json_decode( file_get_contents( FM_PLUGIN_PATH . "config.json" ) );
 
 //add another constant for our namespace
 $namespace = "FM\\" . $config->adapter;
-define( "FM_NAMESPACE_PATH", $namespace . DS );
+
+define( "FM_NAMESPACE_PATH", $namespace . "\\" );
+define( "FM_NAMESPACE_FILE_PATH", FM_PLUGIN_PATH . "FM" . DS . $config->adapter . DS );
 
 //create our adapter
 $a = FM_NAMESPACE_PATH . "Adapter";
 $adapter = new $a;
 
 //load any support files
-$supportFile = FM_PLUGIN_PATH . FM_NAMESPACE_PATH . "support.php";
+$supportFile = FM_NAMESPACE_FILE_PATH . "support.php";
 if( file_exists( $supportFile ) )
 	require_once $supportFile;
 

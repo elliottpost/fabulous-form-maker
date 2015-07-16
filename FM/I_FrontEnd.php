@@ -21,10 +21,4 @@ interface I_FrontEnd {
 	 */
 	public static function getCss();
 
-	/**
-	 * sends the completed form to an adapter
-	 * passes along entire $_POST object
-	 */
-	public static function sendSubmissionToAdapter();
-
 } //I_FrontEnd
