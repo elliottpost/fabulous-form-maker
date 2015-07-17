@@ -1,5 +1,8 @@
 <?php
 /**
+ * Checking if the form has already been submitted. If it is then, we are sending adapter a command to process form submission,
+ * so the response is to the admin. Because getForm() returns html file of the form, so when the forms are submitted we don't want to return form again
+ * so we have a "Thank You!" for that.
 */
 namespace FM;
 class FrontEnd {
