@@ -36,5 +36,18 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('Field ID must be numeric.', $e->getMessage());
         }
     }
+    /**
+     * UnitTestCase-3 to test if the FieldId is numeric. Input given is special characters.
+     */
+    public function testSpecialCharacterFieldId()
+    {
+        try {
+            $test = new Field('*$@');
+        }
+        catch(\Exception $e)
+        {
+            $this->assertEquals('Field ID must be numeric.', $e->getMessage());
+        }
+    }
 
 }
