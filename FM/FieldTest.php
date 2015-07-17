@@ -111,4 +111,34 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Only 1 Options!', $matches[0][0]);
     }
 
+    /**
+     * UnitTestCase-6 to test Password.
+     */
+
+    public function testPassword()
+    {
+        $test = new Field(3);
+        $test->setTest(true);
+        $test->setType("password");
+        $test->setIsRequired(true);
+        $test->setTextBefore("Text before input type text!");
+        $test->setOptions("option1");
+        $html = $test->getAdminHtml();
+        /**
+         * test to see the textbeforechanges
+         */
+        preg_match_all('/Text before input type text!/', $html, $matches);
+        $this->assertEquals(2, count($matches[0]));
+        /**
+         * test to see we see the id 3
+         */
+        preg_match_all('/etm_element_(\d+)/', $html, $matches);
+        $this->assertEquals(3, $matches[1][0]);
+        /**
+         * test to get the options
+         */
+        preg_match_all('/option1/', $html, $matches);
+        $this->assertEquals('option1', $matches[0][0]);
+
+    }
 }
