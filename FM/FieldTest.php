@@ -49,5 +49,36 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('Field ID must be numeric.', $e->getMessage());
         }
     }
+    /**
+     * UnitTestCase-4 to test textbox.
+     */
+
+    public function testInputType()
+    {
+        $test = new Field(1);
+        $test->setTest(true);
+        $test->setType("text");
+        $test->setIsRequired(true);
+        $test->setTextBefore("Text before input type text!");
+        $test->setOptions("option1\noption2\n");
+        $html = $test->getAdminHtml();
+        /**
+         * test to see the textbeforechanges
+         */
+        preg_match_all('/Text before input type text!/', $html, $matches);
+        $this->assertEquals(2, count($matches[0]));
+        /**
+         * test to see we see the id 1
+         */
+        preg_match_all('/etm_element_(\d+)/', $html, $matches);
+        $this->assertEquals(1, $matches[1][0]);
+        /**
+         * test to get the options
+         */
+        preg_match_all('/option1/', $html, $matches);
+        $this->assertEquals('option1', $matches[0][0]);
+        preg_match_all('/option2/', $html, $matches);
+        $this->assertEquals('option2', $matches[0][0]);
+    }
 
 }
