@@ -97,6 +97,60 @@ class Field implements I_Field {
      * @todo
      */
     public function getFrontEndHtml() {
+        //reset required data
+        if( $this->getIsRequired() ) {
+            $required = " required";
+            $asterisk = "*";
+        } else {
+            $required = "";
+            $asterisk = "";
+        }
+        $id = $field->getId();
+        if($field->field_type == "text") {
+            //text field
+            $form .= "<label for='field_" . $i . "'>" . $field->getTextBefore() . $asterisk . "</label>"  . $nl;
+            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+            $form .= "<input type='text' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">" . $nl;
+        } elseif($field->field_type == "password") {
+            //password
+            $form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+            $form .= "<input type='password' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">" . $nl;
+        } elseif($field->field_type == "textarea") {
+            //textarea
+            $form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+            $form .= "<textarea name='field_" . $i . "' id='field_" . $i . "' rows='5' cols='50' " . $required . "></textarea>" . $nl;
+
+        } elseif($field->field_type == "select") {
+            //select
+            $form .= "<label for='" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+            $form .= "<select name='field_" . $i . "' id='field_" . $i . "' " . $required . ">" . $nl;
+            $etm_fields = explode('|-etm-|', $field->field_options);
+            foreach($etm_fields as $field_val) {
+                $form .= "<option value='" . $field_val . "'>" . $field_val . "</option>" . $nl;
+            }
+            $form .= "</select>";
+        } elseif($field->field_type == "radio") {
+            //radio
+            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+            $form .= "<label>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+            $etm_fields = explode('|-etm-|', $field->field_options);
+            foreach($etm_fields as $field_val) {
+                $form .= "<input type='radio' name='field_" . $i . "' class='field_" . $i . "' value='" . $field_val . "' " . $required . "> " . $field_val . "<br>" . $nl;
+            }
+        }  elseif($field->field_type == "checkbox") {
+            //checkbox
+            $j = 0;//checkbox number
+            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
+            $form .= "<label>" . $field->text_before_field . $asterisk . "</label>" . $nl;
+            $etm_fields = explode('|-etm-|', $field->field_options);
+            foreach($etm_fields as $field_val) {
+                $form .= "<input type='checkbox' name='field_" . $i . "_" . $j ."' class='field_" . $i . "' value='" . $field_val . "'> " . $field_val . "<br>" . $nl;
+                $j++;
+            }
+        }
 
         }
 
