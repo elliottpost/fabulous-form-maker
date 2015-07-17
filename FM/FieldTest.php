@@ -24,5 +24,17 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    
+    /**
+     * UnitTestCase-2 to test if the FieldId is numeric. Input is empty.
+     */
+    public function testEmptyFieldId()
+    {
+        try {
+            $test = new Field('');
+        }
+        catch(\Exception $e){
+            $this->assertEquals('Field ID must be numeric.', $e->getMessage());
+        }
+    }
+
 }
