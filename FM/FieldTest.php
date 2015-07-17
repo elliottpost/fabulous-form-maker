@@ -81,4 +81,34 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('option2', $matches[0][0]);
     }
 
+    /**
+     * UnitTestCase-5 to test TextArea.
+     */
+
+    public function testTextArea()
+    {
+        $test = new Field(2);
+        $test->setTest(true);
+        $test->setType("textarea");
+        $test->setIsRequired(true);
+        $test->setTextBefore("TextArea Before Text!");
+        $test->setOptions("Only 1 Options!");
+        $html = $test->getAdminHtml();
+        /**
+         * test to see the textbeforechanges
+         */
+        preg_match_all('/TextArea Before Text/', $html, $matches);
+        $this->assertEquals(2, count($matches[0]));
+        /**
+         * test to see we see the id 2
+         */
+        preg_match_all('/etm_element_(\d+)/', $html, $matches);
+        $this->assertEquals(2, $matches[1][0]);
+        /**
+         * test to get the options
+         */
+        preg_match_all('/Only 1 Options!/', $html, $matches);
+        $this->assertEquals('Only 1 Options!', $matches[0][0]);
+    }
+
 }
