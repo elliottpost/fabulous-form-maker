@@ -4,7 +4,12 @@
  * so the response is to the admin. Because getForm() returns html file of the form, so when the forms are submitted we don't want to return form again
  * so we have a "Thank You!" for that.
 */
+
 namespace FM;
+
+include 'Field.php';
+//require_once \FM_PLUGIN_PATH . "FM" . DS . "Field.php";
+
 class FrontEnd {
 	/**
 	 * getForm
@@ -24,8 +29,7 @@ class FrontEnd {
 
 		$fields = $adapter->getFields();
 		foreach( $fields as $field ) {
-			echo $field->getFrontEndHtml();
-
+			$form .= $field->getFrontEndHtml();
 		}
 		//how many fields? subtract the extra count
 		$i--;

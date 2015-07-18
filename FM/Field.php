@@ -5,10 +5,13 @@
  */
 
 namespace FM;
-
-//include 'I_Field.php';
+include "I_Field.php";
+//require_once \FM_PLUGIN_PATH . "FM" . DS . "I_Field.php";
 class Field implements I_Field {
-
+    /**
+     * @var bool: test variable
+     */
+    private $_test;
     /**
      * @var int: the field ID
      */
@@ -65,6 +68,10 @@ class Field implements I_Field {
 
     } //setIsRequired
 
+    public function setTest($test){
+        $this->_test = $test;
+    }
+
     public function setTextBefore( $textBeforeField ) {
         $this->_textBefore = $textBeforeField;
     } //setTextBefore
@@ -92,6 +99,9 @@ class Field implements I_Field {
     public function getOptions() {
         return $this->_options;
     } //getOptions
+    public function isTest(){
+        return $this->_test;
+    }
 
     /**
      * @todo
@@ -105,61 +115,65 @@ class Field implements I_Field {
             $required = "";
             $asterisk = "";
         }
-        $id = $field->getId();
-        if($field->field_type == "text") {
+        $do = self::DELIMETER_OPTION;
+        $df = self::DELIMETER_FIELD;
+        $form = '';
+        $nl = PHP_EOL;
+        $id = $this->getId();
+        if($this->getType() == "text") {
             //text field
-            $form .= "<label for='field_" . $i . "'>" . $field->getTextBefore() . $asterisk . "</label>"  . $nl;
-            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
-            $form .= "<input type='text' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">" . $nl;
-        } elseif($field->field_type == "password") {
+            $form .= "<label for='field_" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>"  . $nl;
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
+            $form .= "<input type='text' name='field_" . $id . "' id='field_" . $id . "'" . $required . ">" . $nl;
+        } elseif($this->getType() == "password") {
             //password
-            $form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
-            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
-            $form .= "<input type='password' name='field_" . $i . "' id='field_" . $i . "'" . $required . ">" . $nl;
-        } elseif($field->field_type == "textarea") {
+            $form .= "<label for='field_" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
+            $form .= "<input type='password' name='field_" . $id . "' id='field_" . $id . "'" . $required . ">" . $nl;
+        } elseif($this->getType() == "textarea") {
             //textarea
-            $form .= "<label for='field_" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
-            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
-            $form .= "<textarea name='field_" . $i . "' id='field_" . $i . "' rows='5' cols='50' " . $required . "></textarea>" . $nl;
+            $form .= "<label for='field_" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
+            $form .= "<textarea name='field_" . $id . "' id='field_" . $id . "' rows='5' cols='50' " . $required . "></textarea>" . $nl;
 
-        } elseif($field->field_type == "select") {
+        } elseif($this->getType() == "select") {
             //select
-            $form .= "<label for='" . $i . "'>" . $field->text_before_field . $asterisk . "</label>" . $nl;
-            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
-            $form .= "<select name='field_" . $i . "' id='field_" . $i . "' " . $required . ">" . $nl;
-            $etm_fields = explode('|-etm-|', $field->field_options);
+            $form .= "<label for='" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
+            $form .= "<select name='field_" . $id . "' id='field_" . $id . "' " . $required . ">" . $nl;
+            $etm_fields = explode($do, $this->getOptions());
             foreach($etm_fields as $field_val) {
                 $form .= "<option value='" . $field_val . "'>" . $field_val . "</option>" . $nl;
             }
             $form .= "</select>";
-        } elseif($field->field_type == "radio") {
+        } elseif($this->getType() == "radio") {
             //radio
-            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
-            $form .= "<label>" . $field->text_before_field . $asterisk . "</label>" . $nl;
-            $etm_fields = explode('|-etm-|', $field->field_options);
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
+            $form .= "<label>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
+            $etm_fields = explode($do, $this->getOptions());
             foreach($etm_fields as $field_val) {
-                $form .= "<input type='radio' name='field_" . $i . "' class='field_" . $i . "' value='" . $field_val . "' " . $required . "> " . $field_val . "<br>" . $nl;
+                $form .= "<input type='radio' name='field_" . $id . "' class='field_" . $id . "' value='" . $field_val . "' " . $required . "> " . $field_val . "<br>" . $nl;
             }
-        }  elseif($field->field_type == "checkbox") {
+        }  elseif($this->getType() == "checkbox") {
             //checkbox
             $j = 0;//checkbox number
-            $form .= "<input type='hidden' name='label_" . $i . "' id='label_" . $i . "' value='" . $field->text_before_field . "'>" . $nl;
-            $form .= "<label>" . $field->text_before_field . $asterisk . "</label>" . $nl;
-            $etm_fields = explode('|-etm-|', $field->field_options);
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
+            $form .= "<label>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
+            $etm_fields = explode($do, $this->getOptions());
             foreach($etm_fields as $field_val) {
-                $form .= "<input type='checkbox' name='field_" . $i . "_" . $j ."' class='field_" . $i . "' value='" . $field_val . "'> " . $field_val . "<br>" . $nl;
+                $form .= "<input type='checkbox' name='field_" . $id . "_" . $j ."' class='field_" . $id . "' value='" . $field_val . "'> " . $field_val . "<br>" . $nl;
                 $j++;
             }
         }
-
+            return $form;
         }
 
     //getFrontEndHtml
 
         public function getAdminHtml() {
             $html = '';
-            $df = self::DELIMETER_OPTION;
-            $do = self::DELIMETER_FIELD;
+            $do = self::DELIMETER_OPTION;
+            $df = self::DELIMETER_FIELD;
             $id = $this->getId();
             //start the data output
             $html .= "<div id='etm_element_" . $id . "'><p>";
