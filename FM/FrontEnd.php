@@ -32,12 +32,12 @@ class FrontEnd {
 			$form .= $field->getFrontEndHtml();
 		}
 		//how many fields? subtract the extra count
-		//for($i=1;$i>=count($fields);$i++) {
-			$form .= "<input type='hidden' value='" . count($fields) . "' id='etm_field_count' name='etm_field_count'>" . $nl;
-			$form .= '<p class="etm_padTop"><input type="submit" id="etm_submit" name="etm_submit" value="Submit"></p>' . $nl;
-			$form .= '</form>' . $nl . $nl;
-			//send it back for printing
-		//}
+		$field_count = count($fields) - 1;
+ 		$form .= "<input type='hidden' value='" . $field_count . "' id='etm_field_count' name='etm_field_count'>" . $nl;
+		$form .= '<p class="etm_padTop"><input type="submit" id="etm_submit" name="etm_submit" value="Submit"></p>' . $nl;
+		$form .= '</form>' . $nl . $nl;
+		//send it back for printing
+
 		return $form;
 	} //getForm
 	
