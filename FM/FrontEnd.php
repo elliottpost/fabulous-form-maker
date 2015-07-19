@@ -7,9 +7,6 @@
 
 namespace FM;
 
-// include 'Field.php';
-//require_once \FM_PLUGIN_PATH . "FM" . DS . "Field.php";
-
 class FrontEnd {
 	/**
 	 * getForm
@@ -55,6 +52,8 @@ class FrontEnd {
 		$form .= '#ellytronic-contact label {margin-top:0.8em;}' . $nl;
 		$form .= '.etm_padTop {padding-top:1.5em;}' . $nl;
 		$form .= '</style>' . $nl;
+		
 		return $form;
 	} //getCss
+
 } //FrontEnd

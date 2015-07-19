@@ -56,7 +56,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testAdminInputType()
     {
         $test = new Field(1);
-        $test->setTest(true);
         $test->setType("text");
         $test->setIsRequired(true);
         $test->setTextBefore("Text before input type text!");
@@ -88,7 +87,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testAdminTextArea()
     {
         $test = new Field(2);
-        $test->setTest(true);
         $test->setType("textarea");
         $test->setIsRequired(true);
         $test->setTextBefore("TextArea Before Text!");
@@ -118,7 +116,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testAdminPassword()
     {
         $test = new Field(3);
-        $test->setTest(true);
         $test->setType("password");
         $test->setIsRequired(true);
         $test->setTextBefore("Text before Password text!");
@@ -145,7 +142,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testAdminRadio()
     {
         $test = new Field(4);
-        $test->setTest(true);
         $test->setType("radio");
         $test->setIsRequired(true);
         $test->setTextBefore("Text before RADIO BUTTON!");
@@ -173,7 +169,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testAdminSelect()
     {
         $test = new Field(5);
-        $test->setTest(true);
         $test->setType("select");
         $test->setIsRequired(true);
         $test->setTextBefore("Text before SELECT TYPE!");
@@ -199,7 +194,6 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testAdminCheckbox()
     {
         $test = new Field(6);
-        $test->setTest(true);
         $test->setType("checkbox");
         $test->setIsRequired(true);
         $test->setTextBefore("CHECK BOX!");

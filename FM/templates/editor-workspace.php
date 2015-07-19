@@ -32,7 +32,7 @@ global $adapter;
 				echo $field->getAdminHtml();
 
 			//add the counter to the page so JS can fetch it
-			echo "<input type='hidden' value='" . count( $fields ) . "' id='etm_counter'>";
+			echo "<input type='hidden' value='" . count( $fields ) - 1 . "' id='etm_counter'>";
 			?>
 		</div>
 

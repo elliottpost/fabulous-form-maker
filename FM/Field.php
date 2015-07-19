@@ -5,13 +5,9 @@
  */
 
 namespace FM;
-// include "I_Field.php";
-//require_once \FM_PLUGIN_PATH . "FM" . DS . "I_Field.php";
+
 class Field implements I_Field {
-    /**
-     * @var bool: test variable
-     */
-    private $_test;
+
     /**
      * @var int: the field ID
      */
@@ -68,10 +64,6 @@ class Field implements I_Field {
 
     } //setIsRequired
 
-    public function setTest($test){
-        $this->_test = $test;
-    }
-
     public function setTextBefore( $textBeforeField ) {
         $this->_textBefore = $textBeforeField;
     } //setTextBefore
@@ -99,13 +91,7 @@ class Field implements I_Field {
     public function getOptions() {
         return $this->_options;
     } //getOptions
-    public function isTest(){
-        return $this->_test;
-    }
 
-    /**
-     * @todo
-     */
     public function getFrontEndHtml() {
         //reset required data
         if( $this->getIsRequired() ) {
@@ -165,79 +151,71 @@ class Field implements I_Field {
                 $j++;
             }
         }
-            return $form;
-    }
+        
+        return $form;
+    } //getFrontEndHtml
 
-    //getFrontEndHtml
+    public function getAdminHtml() {
+        $html = '';
+        $do = self::DELIMETER_OPTION;
+        $df = self::DELIMETER_FIELD;
+        $id = $this->getId();
+        //start the data output
+        $html .= "<div id='etm_element_" . $id . "'><p>";
+        $html .= $this->getTextBefore() . "<br>";
 
-        public function getAdminHtml() {
-            $html = '';
-            $do = self::DELIMETER_OPTION;
-            $df = self::DELIMETER_FIELD;
-            $id = $this->getId();
-            //start the data output
-            $html .= "<div id='etm_element_" . $id . "'><p>";
-            $html .= $this->getTextBefore() . "<br>";
+        //textbox
+        if( $this->getType() == "text" )  {
+            $html .= "<input type='text' id='etm_fakeElement_" . $id . "' ";
+            if( $this->getIsRequired() )
+                $html.= "required> (required)";
+            else
+                $html .= ">";
+            //print the form data
+            $html .= "<input type='hidden' class='etm_toAdd' value='text{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
 
-            //textbox
-            if( $this->getType() == "text" )  {
-                $html .= "<input type='text' id='etm_fakeElement_" . $id . "' ";
-                if( $this->getIsRequired() )
-                    $html.= "required> (required)";
-                else
-                    $html .= ">";
-                //print the form data
-                $html .= "<input type='hidden' class='etm_toAdd' value='text{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
-
-                //textarea
-            } elseif( $this->getType() == "textarea" ) {
-                $html .= "<textarea rows='5' cols='50' id='etm_fakeElement_" . $id . "'></textarea>";
-                //print the form data
-                $html .= "<input type='hidden' class='etm_toAdd' value='textarea{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore()  . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
-                //password
-            } elseif( $this->getType() == "password" ) {
-                $html .= "<input type='password' id='etm_fakeElement_" . $id . "' ";
-                if( $this->getIsRequired() )
-                    $html .= "required> (required)";
-                else
-                    $html .= ">";
-                //print the form data
-                $html .= "<input type='hidden' class='etm_toAdd' value='password{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
-            } elseif( $this->getType() == "select" ) {
-                $html .= "<select id='etm_fakeElement_" . $id . "'>";
-                $options = explode( $do, $this->getOptions() );
-                foreach( $options as $val ) {
-                    $html .= "<option value='" . $val . "'>" . $val . "</option>";
-                }
-                $html .= "</select>";
-                //print the form data
-                $html .= "<input type='hidden' class='etm_toAdd' value='select{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
-            }  elseif( $this->getType() == "radio" ) {
-                $options = explode( $do, $this->getOptions() );
-                foreach( $options as $val ) {
-                    $html .= "<input type='radio' name='etm_fakeElement_" . $id . "' class='field_" . $id . "' value='" . $val . "'> ". $val . "<br>";
-                }
-                //print the form data
-                $html .= "<input type='hidden' class='etm_toAdd' value='radio{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
-            }   elseif( $this->getType() == "checkbox" ) {
-                $options = explode( $do, $this->getOptions() );
-                foreach( $options as $val ) {
-                    $html .= "<input type='checkbox' name='etm_fakeElement_" . $id . "' class='field_" . $id . "' value='" . $val . "'> ". $val . "<br>";
-                }
-                //print the form data
-                $html .= "<input type='hidden' class='etm_toAdd' value='checkbox{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
+            //textarea
+        } elseif( $this->getType() == "textarea" ) {
+            $html .= "<textarea rows='5' cols='50' id='etm_fakeElement_" . $id . "'></textarea>";
+            //print the form data
+            $html .= "<input type='hidden' class='etm_toAdd' value='textarea{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore()  . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
+            //password
+        } elseif( $this->getType() == "password" ) {
+            $html .= "<input type='password' id='etm_fakeElement_" . $id . "' ";
+            if( $this->getIsRequired() )
+                $html .= "required> (required)";
+            else
+                $html .= ">";
+            //print the form data
+            $html .= "<input type='hidden' class='etm_toAdd' value='password{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
+        } elseif( $this->getType() == "select" ) {
+            $html .= "<select id='etm_fakeElement_" . $id . "'>";
+            $options = explode( $do, $this->getOptions() );
+            foreach( $options as $val ) {
+                $html .= "<option value='" . $val . "'>" . $val . "</option>";
             }
-            //finish output
-            $html .= "<br><a href='#' onclick='etm_deleteElement(" . $id . ");'>Delete</a></p></div>";
-            /***
-             * if its a test return the html , else echo it out
-             */
-            if($this->isTest()){
-                return $html;
+            $html .= "</select>";
+            //print the form data
+            $html .= "<input type='hidden' class='etm_toAdd' value='select{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
+        }  elseif( $this->getType() == "radio" ) {
+            $options = explode( $do, $this->getOptions() );
+            foreach( $options as $val ) {
+                $html .= "<input type='radio' name='etm_fakeElement_" . $id . "' class='field_" . $id . "' value='" . $val . "'> ". $val . "<br>";
             }
-            else{
-                echo $html;
+            //print the form data
+            $html .= "<input type='hidden' class='etm_toAdd' value='radio{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
+        }   elseif( $this->getType() == "checkbox" ) {
+            $options = explode( $do, $this->getOptions() );
+            foreach( $options as $val ) {
+                $html .= "<input type='checkbox' name='etm_fakeElement_" . $id . "' class='field_" . $id . "' value='" . $val . "'> ". $val . "<br>";
             }
-        } //getAdminHtml
+            //print the form data
+            $html .= "<input type='hidden' class='etm_toAdd' value='checkbox{$df}" . (int) $this->getIsRequired() . "{$df}" . $this->getTextBefore() . "{$df}" . $this->getOptions() . "' name='etm_formElement" . $id . "' id='etm_formElement" . $id . "' form='etm_contact' >";
+        }
+        //finish output
+        $html .= "<br><a href='#' onclick='etm_deleteElement(" . $id . ");'>Delete</a></p></div>";
+       
+       return $html;
+    } //getAdminHtml
 
 } //Field

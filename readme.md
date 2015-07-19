@@ -1,4 +1,4 @@
-##Fabulous Form Maker
+# Fabulous Form Maker
 Contributors: Ellytronic Media, Elliott Post, Parina Madaan  
 Tags: form, custom, contact, email, connect, easy, ellytronic  
 Requires at least: 3.0  
