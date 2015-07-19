@@ -75,7 +75,7 @@ add_action('wp_ajax_etm_contact_update_form', '\FM\WordPress\updateForm');
  * Sets up shortcode for [etm_contact_form] to print the form to the page
  */
 function printForm() {
-	echo FormMaker::getForm();
+	echo \FM\FrontEnd::getForm();
 } //printForm
 add_shortcode( 'etm_contact_form', '\FM\WordPress\printForm' ); 
 

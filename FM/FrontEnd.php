@@ -7,7 +7,7 @@
 
 namespace FM;
 
-include 'Field.php';
+// include 'Field.php';
 //require_once \FM_PLUGIN_PATH . "FM" . DS . "Field.php";
 
 class FrontEnd {
@@ -40,6 +40,7 @@ class FrontEnd {
 		//}
 		return $form;
 	} //getForm
+	
 	/**
 	 * getCss
 	 * returns the default CSS for this plugin
