@@ -112,7 +112,8 @@ class Adapter implements \FM\I_Adapter {
 	public function sendFormSubmission() {
 
 		//first ensure we have some data to work with
-		if( empty( $_POST ) || !array_key_exists( 'etm_field_count', $_POST ) || empty( $_POST['etm_field_count'] ) )
+		//if( empty( $_POST ) || !array_key_exists( 'etm_field_count', $_POST ) || empty( $_POST['etm_field_count'] ) )
+		if( empty( $_POST ) || !array_key_exists( 'etm_field_count', $_POST )  )
 			throw new \Exception( "Invalid form submission. Missing required fields." );
 
 		//get the number of fields
