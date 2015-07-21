@@ -115,13 +115,13 @@ class Field implements I_Field {
         } elseif($this->getType() == "password") {
             //password
             $form .= "<label for='field_" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
-            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl .$nl;
             $form .= "<input type='password' name='field_" . $id . "' id='field_" . $id . "'" . $required . ">" . $nl. $nl;
         } elseif($this->getType() == "textarea") {
             //textarea
             $form .= "<label for='field_" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
-            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
-            $form .= "<textarea name='field_" . $id . "' id='field_" . $id . "' rows='5' cols='50' " . $required . "></textarea>" . $nl;
+            $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl . $nl;
+            $form .= "<textarea name='field_" . $id . "' id='field_" . $id . "' rows='5' cols='50' " . $required . "></textarea>" . "<br>" . $nl;
 
         } elseif($this->getType() == "select") {
             //select
@@ -130,7 +130,7 @@ class Field implements I_Field {
             $form .= "<select name='field_" . $id . "' id='field_" . $id . "' " . $required . ">" . $nl;
             $etm_fields = explode($do, $this->getOptions());
             foreach($etm_fields as $field_val) {
-                $form .= "<option value='" . $field_val . "'>" . $field_val . "</option>" . $nl;
+                $form .= "<option value='" . $field_val . "'>" . $field_val . "</option>" . "<br>" . $nl;
             }
             $form .= "</select>";
         } elseif($this->getType() == "radio") {
