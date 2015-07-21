@@ -42,14 +42,12 @@ define( "FM_DB_VERSION", 1.0 );
 spl_autoload_register( function( $class ) {
     //mask the \\
     $class = ltrim( $class, '\\' );
-
     //if not FM namespace or sub-namespace of FM, return
     if( strpos( $class, "FM" ) !== 0)
         return;
 
     //load the class
     $path =  FM_PLUGIN_PATH . str_replace( '\\', DS, $class ) . '.php';
-
     require_once $path;
 } );
 
