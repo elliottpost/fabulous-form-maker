@@ -1,6 +1,6 @@
 <?php
 /**
- * @todo add description of file
+ * Explicitly defines the requirements for the FrontEnd (end-user GUI) class of the website
  */
 namespace FM;
 
