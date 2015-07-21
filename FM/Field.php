@@ -6,6 +6,7 @@
 
 namespace FM;
 
+
 class Field implements I_Field {
 
     /**
@@ -115,7 +116,7 @@ class Field implements I_Field {
             //password
             $form .= "<label for='field_" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
             $form .= "<input type='hidden' name='label_" . $id . "' id='label_" . $id . "' value='" . $this->getTextBefore() . "'>" . $nl;
-            $form .= "<input type='password' name='field_" . $id . "' id='field_" . $id . "'" . $required . ">" . $nl;
+            $form .= "<input type='password' name='field_" . $id . "' id='field_" . $id . "'" . $required . ">" . $nl. $nl;
         } elseif($this->getType() == "textarea") {
             //textarea
             $form .= "<label for='field_" . $id . "'>" . $this->getTextBefore() . $asterisk . "</label>" . $nl;
