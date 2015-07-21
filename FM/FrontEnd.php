@@ -7,14 +7,17 @@
 
 namespace FM;
 
-class FrontEnd {
+
+class FrontEnd implements I_FrontEnd{
 	/**
 	 * getForm
 	 * returns the completed form output with HTML & CSS ready for printing
 	 * @return String $html
 	 */
+
 	public static function getForm() {
 		global $adapter;
+
 		if( isset( $_POST['etm_submit'] ) ) {
 
 			$adapter->sendFormSubmission();
