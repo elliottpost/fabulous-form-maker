@@ -64,10 +64,10 @@ Choose item to add in the contact form
 ![Step2](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/Step2-SingleLineTextBox.png)
 
 ####Step 3
-**Selection Box**
-1. User selects Selection Box option from the drop down list. 
-2. User can add entry in Text to print before this drop down select box, make a field Required or not required, add options to the Next select box option, Your Select Box So Far displays  the options, Finish this element and add to form or Cancel adding this element.
-![Step3](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/Step3-SelectionBox.png)
+**Selection Box**  
+1. User selects Selection Box option from the drop down list.   
+2. User can add entry in Text to print before this drop down select box, make a field Required or not required, add options to the Next select box option, Your Select Box So Far displays  the options, Finish this element and add to form or Cancel adding this element.  
+![Step3](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/Step3-SelectionBox.png)  
 
 ####Step 4
 **Large Text Box**
