@@ -124,11 +124,12 @@ View of form after click on Save Form.
 
 ####Step 10
 1. To view form on the front end, user will enter the contact url  
-2. User can give input and click on Submit button.  
-3. Once user clicks on Submit button, an email is sent to the administrator will the filled out contact form.
- 
-Below screenshot displays the admin form on UI. 
-  
+2. User can gives the required input  
+![UIForm](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/UIForm.png)  
+3. Once user clicks on Submit button, a Thank you messgae is displayed.  
+![SubmitMessage](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/SubmitMessage.png)  
+4. An email is sent to the administrator will the filled out contact form.  
+   
 ## Resources
 [Link for how to get SVN for WordPress (specific to WP) and git](http://code.tutsplus.com/tutorials/publishing-wordpress-plug-ins-with-git--wp-25235)  
   
