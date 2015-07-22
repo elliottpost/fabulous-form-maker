@@ -33,7 +33,31 @@ __IMPORTANT!__
 * Prior to plugin updates its always a good idea to backup event data. Select a plugin from the WordPress Plugins Repository that can backup and restore custom (non-WordPress)   tables.  
 
 ## Frequently Asked Questions
-Not yet available.  
+
+### Overriding the CSS
+Unhappy with the default CSS? You can override the CSS by adding a few lines of code to your theme's stylesheet.
+`#ellytronic-contact label,   
+#ellytronic-contact input,  
+#ellytronic-contact select,  
+#ellytronic-contact textarea {  
+	display: MY-CSS default: block);  
+}  
+#ellytronic-contact input,  
+#ellytronic-contact select,  
+#ellytronic-contact textarea {  
+	margin-bottom: MY-CSS (default: 1em);  
+}  
+#ellytronic-contact input[type="radio"],  
+#ellytronic-contact input[type="checkbox"] {  
+	display: MY-CSS (default: inline);  
+	margin: MY-CSS (default: 0);  
+}  
+#ellytronic-contact label {  
+	margin-top: MY-CSS (default: 0.8em);  
+}  
+.etm_padTop {  
+	padding-top: MY-CSS (default: 1.5em);  
+}  
 
 ## Screenshots   
 ### Steps to create a form  
@@ -103,6 +127,12 @@ View of form after click on Save Form.
   
 ## Changelog
 
+### 2.0 
+Plugin is now object orienteded.  
+Plugin is now compatible with/extensible for multiple Content Management Systems provided a new adapter is created which implements the I_Adapter interface. (See developers docs for more details)
+Unit tests added for all non-CMS-dependent methods.  
+ReadMe updated with screenshots show front and back-end use  
+
 ### 1.1.0
 Now sends HTML emails instead of text based. Fixed an issue with slashes appearing before certain special characters.
 
@@ -142,3 +172,13 @@ Edited tags on readme.txt
 
 ### 1.0.0
 Requested plugin to be added to repository
+
+## Developers
+As of version 2.0, this plugin is now extensible without modifying source code.  This plugin can be extended to work on multiple Content Mangement Systems.  Additionally, the CSS can all be overrided (see FAQ).  
+
+### Extending the plugin for other CMS
+1. An adapter needs to be created for the CMS you wish to extend this plugin for. The adapter must implement /FM/I_Adapter.  
+2. The adapter should follow a namespacing pattern such as \FM\MyCMSName. See the WordPress Adapter (default adapter) for an example.  
+3. The directory structure must **exactly** match the namespace, case-sensitivity included (see again the WordPress adapter for an example).  
+4. Update the config.json file such that the object adapter now specifies the directory (sub-namespace) for your adapter.
+5. Additionally, if your CMS needs support that is separate from the adapter, create a file called support.php inside the sub-namespace directory. See the WordPress adapter as an example.  
