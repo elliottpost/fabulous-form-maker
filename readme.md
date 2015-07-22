@@ -102,7 +102,7 @@ Choose item to add in the contact form
 ####Step 5  
 **Password Text Box**  
 1. User selects Password Text Box option from drop down list.  
-2. On selection of Password Text Box option, user can add Text to print before this password style box: making this field as Required (a check box) or not required, Finish this element and add to form or Cancel adding this element.  
+2. On selection of Password Text Box option, user can add Text to print before this password style box: making this field as Required (a check box)   or not required, Finish this element and add to form or Cancel adding this element.  
 ![Step5](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/Step5-PasswordTextBox.png)  
   
 ####Step 6  
@@ -121,6 +121,13 @@ Choose item to add in the contact form
 View of form after click on Save Form.  
 ![Step8](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/Step8-YourFormSoFar1.png)  
 ![Step9](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/Step9-YourFormSoFar2.png)  
+
+####Step 10
+1. To view form on the front end, user will enter the contact url  
+2. User can give input and click on Submit button.  
+3. Once user clicks on Submit button, an email is sent to the administrator will the filled out contact form.
+ 
+Below screenshot displays the admin form on UI. 
   
 ## Resources
 [Link for how to get SVN for WordPress (specific to WP) and git](http://code.tutsplus.com/tutorials/publishing-wordpress-plug-ins-with-git--wp-25235)  
@@ -182,3 +189,4 @@ As of version 2.0, this plugin is now extensible without modifying source code. 
 3. The directory structure must **exactly** match the namespace, case-sensitivity included (see again the WordPress adapter for an example).  
 4. Update the config.json file such that the object adapter now specifies the directory (sub-namespace) for your adapter.
 5. Additionally, if your CMS needs support that is separate from the adapter, create a file called support.php inside the sub-namespace directory. See the WordPress adapter as an example.  
+=======
