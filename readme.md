@@ -35,12 +35,12 @@ __IMPORTANT!__
 ## Frequently Asked Questions
 
 ### Overriding the CSS
-Unhappy with the default CSS? You can override the CSS by adding a few lines of code to your theme's stylesheet.  
+Unhappy with the default CSS? You can override the CSS by adding a few lines of code to your theme's stylesheet. Replace the MY-CSS (Default: ___) with a value that matches your theme.
   `#ellytronic-contact label,`   
   `#ellytronic-contact input,`  
   `#ellytronic-contact select,`  
   `#ellytronic-contact textarea {`  
-    &nbsp;&nbsp;`display: MY-CSS default: block);`  
+    &nbsp;&nbsp;`display: MY-CSS (default: block);`  
   `}`  
   `#ellytronic-contact input,`  
   `#ellytronic-contact select,`  
