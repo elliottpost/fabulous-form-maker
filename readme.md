@@ -129,6 +129,7 @@ View of form after click on Save Form.
 3. Once user clicks on Submit button, a Thank you messgae is displayed.  
 ![SubmitMessage](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/SubmitMessage.png)  
 4. An email is sent to the administrator will the filled out contact form.  
+![Email](https://github.com/elliottpost/fabulous-form-maker/blob/elly-dev/FM/Screenshots/Email.png)  
    
 ## Resources
 [Link for how to get SVN for WordPress (specific to WP) and git](http://code.tutsplus.com/tutorials/publishing-wordpress-plug-ins-with-git--wp-25235)  
